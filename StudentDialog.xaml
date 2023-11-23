@@ -5,13 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="StudentDialog" Height="172" Width="334" WindowStartupLocation="CenterScreen">
+        Title="StudentDialog" WindowStartupLocation="CenterScreen" Height="280" Width="270">
     <Grid>
-        <Label Content="Student Name:" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="45,30,0,0"/>
-        <TextBox HorizontalAlignment="Left" Margin="139,34,0,0" TextWrapping="Wrap" Text="" Name="StudentNameTextBox"  VerticalAlignment="Top" Width="120"/>
-        <Label Content="Student Age:" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="56,70,0,0"/>
-        <TextBox HorizontalAlignment="Left" Margin="139,74,0,0" TextWrapping="Wrap" Text="" Name="StudentAgeTextBox" VerticalAlignment="Top" Width="120" PreviewTextInput="NumericOnly_PreviewTextInput"/>
-        <Button Content="Save" HorizontalAlignment="Center" VerticalAlignment="Top" Click="SaveButton_Click" Margin="0,104,0,0"/>
-
+        <Label Content="Student First Name:" Margin="2,12,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,16,0,0" TextWrapping="Wrap" Text="" Name="StudentFirstNameTextBox"  VerticalAlignment="Top" Width="120"/>
+        <Label Content="Student Last Name:" Margin="3,42,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,46,0,0" TextWrapping="Wrap" Text="" Name="StudentLastNameTextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Student Age:" Margin="38,72,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,76,0,0" TextWrapping="Wrap" Text="" Name="StudentAgeTextBox" VerticalAlignment="Top" Width="120" PreviewTextInput="NumericOnly_PreviewTextInput"/>
+        <Label Content="Graduate:" Margin="55,98,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <CheckBox HorizontalAlignment="Left" Margin="121,103,0,0" VerticalAlignment="Top" Name="StudentGraduateCheckBox"/>
+        <Label Content="Contact Email:" Margin="30,122,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,126,0,0" TextWrapping="Wrap" Text="" Name="StudentEmailTextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Contact Phone:" Margin="26,148,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,152,0,0" TextWrapping="Wrap" Text="" Name="StudentPhoneTextBox" VerticalAlignment="Top" Width="120" PreviewTextInput="NumericOnly_PreviewTextInput"/>
+        <Label Content="Availability:" Margin="47,174,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,178,0,0" TextWrapping="Wrap" Text="" Name="StudentAvailabilityTextBox" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Save" HorizontalAlignment="Center" Margin="0,205,0,0" VerticalAlignment="Top" Width="74" Click="SaveButtonClicked"/>
     </Grid>
 </Window>

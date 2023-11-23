@@ -5,13 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
-    <Grid>
-        <DataGrid d:ItemsSource="{Binding}" Name="EmployeesGrid" Margin="0,57,0,264" Background="#FF12B1F1" RowBackground="#FF12B1F1" CanUserAddRows="False"/>
-        <DataGrid d:ItemsSource="{Binding}" Name="StudentsGrid" Margin="0,217,0,0" Background="#FF19DD6C" RowBackground="#FF19DD6C" CanUserAddRows="False"/>
-        <Label Content="Employees" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top"/>
-        <Label Content="Students" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top"/>
-        <Button Content="Add Student" Name="AddStudent" HorizontalAlignment="Left" Margin="71,194,0,0" VerticalAlignment="Top" Click="AddStudentButton_Click"/>
+        Title="MainWindow" Height="550" Width="1000" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
+    <Grid Height="550" Width="1000">
+        <TabControl>
+            <TabItem Header="Employees">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Employees" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="EmployeesGrid" Margin="175,0,0,0" CanUserAddRows="False"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Students">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Students" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="StudentsGrid" Margin="175,0,0,0" CanUserAddRows="False"/>
+                    <Button Content="Add Student" Name="AddStudent" HorizontalAlignment="Left" Margin="0,59,0,0" VerticalAlignment="Top" FontSize="18" Click="AddStudentButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Courses">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Courses" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="CoursesGrid" Margin="175,0,0,0" CanUserAddRows="False"/>
+                    <Button Content="Add Course" Name="AddCourse" HorizontalAlignment="Left" Margin="0,59,0,0" VerticalAlignment="Top" FontSize="18" Click="AddCourseButton_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>
