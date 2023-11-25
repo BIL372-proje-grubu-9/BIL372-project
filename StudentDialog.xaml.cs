@@ -21,8 +21,8 @@ namespace WpfApp1
     {
         public string StudentFirstName { get; set; }
         public string StudentLastName { get; set; }
-        public string StudentAge { get; set; }
-        public bool Graduate { get; set; }
+        public int StudentAge { get; set; }
+        public bool StudentGraduate { get; set; }
         public string ContactEmail { get; set; }
         public string ContactPhone { get; set; }
         public string Availability { get; set; }
@@ -31,8 +31,8 @@ namespace WpfApp1
             InitializeComponent();
             StudentFirstName = string.Empty;
             StudentLastName = string.Empty;
-            StudentAge = string.Empty;
-            Graduate = false;
+            StudentAge = 0;
+            StudentGraduate = false;
             ContactEmail = string.Empty;
             ContactPhone = string.Empty;
             Availability = string.Empty;
@@ -51,17 +51,12 @@ namespace WpfApp1
                 MessageBox.Show("Please enter the student's last name.");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(StudentAgeTextBox.Text))
-            {
-                MessageBox.Show("Please enter the student's age.");
-                return;
-            }
 
             // Set the StudentName and StudentAge property with the entered name.
             StudentFirstName = StudentFirstNameTextBox.Text;
             StudentLastName = StudentLastNameTextBox.Text;
-            StudentAge = StudentAgeTextBox.Text;
-            Graduate = StudentGraduateCheckBox.IsChecked ?? false;
+            StudentAge = int.Parse(StudentAgeTextBox.Text);
+            StudentGraduate = StudentGraduateCheckBox.IsChecked ?? false;
             ContactEmail = StudentEmailTextBox.Text;
             ContactPhone = StudentPhoneTextBox.Text;
             Availability = StudentAvailabilityTextBox.Text;

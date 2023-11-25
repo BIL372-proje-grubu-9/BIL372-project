@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,7 +56,7 @@ namespace WpfApp1
 
             // Set the CourseName and CourseTeacherId property with the entered name.
             CourseName = CourseNameTextBox.Text;
-            CourseTeacherId = int.Parse(CourseTeacherIdComboBox.Text.Split('(', ')')[1]);
+            CourseTeacherId = int.Parse(CourseTeacherIdComboBox.Text.ToLower().Split("id: ")[1].Replace(")", ""));
             CourseSchedule = CourseScheduleTextBox.Text;
             CourseStatus = CourseStatusCheckBox.IsChecked ?? false;
 
@@ -71,18 +72,9 @@ namespace WpfApp1
             MySqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                CourseTeacherIdComboBox.Items.Add(reader[0] + " " + reader[1] + " (" + reader[2] + ")");
+                CourseTeacherIdComboBox.Items.Add(reader[0] + " " + reader[1] + " (id: " + reader[2] + ")");
             }
             reader.Close();
-        }
-
-        private void NumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            // Use this event handler to allow only numeric input.
-            if (!int.TryParse(e.Text, out _))
-            {
-                e.Handled = true; // Cancel the input if it's not a valid integer.
-            }
         }
     }
 }

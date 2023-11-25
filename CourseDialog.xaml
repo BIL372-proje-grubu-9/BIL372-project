@@ -9,7 +9,7 @@
     <Grid>
         <Label Content="Course Name:" Margin="32,12,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Margin="121,16,0,0" TextWrapping="Wrap" Text="" Name="CourseNameTextBox"  VerticalAlignment="Top" Width="120"/>
-        <Label Content="Teacher ID:" Margin="49,42,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Content="Teacher:" Margin="64,42,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <ComboBox HorizontalAlignment="Left" Margin="121,44,0,0" Name="CourseTeacherIdComboBox" VerticalAlignment="Top" Width="120"/>
         <Label Content="Schedule:" Margin="56,72,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Margin="121,76,0,0" TextWrapping="Wrap" Text="" Name="CourseScheduleTextBox" VerticalAlignment="Top" Width="120"/>

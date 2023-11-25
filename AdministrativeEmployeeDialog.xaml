@@ -1,0 +1,30 @@
+﻿<Window x:Class="WpfApp1.AdministrativeEmployeeDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="AdministrativeEmployeeDialog" WindowStartupLocation="CenterScreen" Height="323" Width="395">
+    <Grid>
+        <Label Content="Administrative Employee First Name:" Margin="23,15,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="236,19,0,0" TextWrapping="Wrap" Text="" Name="AdministrativeEmployeeFirstNameTextBox"  VerticalAlignment="Top" Width="120"/>
+        <Label Content="Administrative Employee Last Name:" Margin="24,45,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="236,49,0,0" TextWrapping="Wrap" Text="" Name="AdministrativeEmployeeLastNameTextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Administrative Employee Email:" Margin="52,75,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="236,79,0,0" TextWrapping="Wrap" Text="" Name="AdministrativeEmployeeEmailTextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Administrative Employee Phone:" Margin="47,102,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="236,106,0,0" TextWrapping="Wrap" Text="" Name="AdministrativeEmployeePhoneTextBox" VerticalAlignment="Top" Width="120" PreviewTextInput="NumericOnly_PreviewTextInput"/>
+        <Label Content="Administrative Employee Department:" Margin="16,125,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="236,129,0,0" TextWrapping="Wrap" Text="" Name="AdministrativeEmployeeDepartmentTextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Hire Date:" Margin="164,151,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <DatePicker HorizontalAlignment="Left" Margin="236,152,0,0" Name="AdministrativeEmployeeHireDateDatePicker" VerticalAlignment="Top" Width="120" FirstDayOfWeek="Monday"/>
+        <Label Content="Administrative Employee Salary:" Margin="48,177,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="236,181,0,0" TextWrapping="Wrap" Text="0" Name="AdministrativeEmployeeSalaryTextBox" VerticalAlignment="Top" Width="120" PreviewTextInput="NumericOnly_PreviewTextInput"/>
+        <Label Content="Full Time:" Margin="0,202,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <CheckBox HorizontalAlignment="Left" Margin="236,207,0,0" Name="AdministrativeEmployeeIsFullTimeCheckBox" VerticalAlignment="Top"/>
+        <Label Content="Availability:" Margin="158,228,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="236,232,0,0" TextWrapping="Wrap" Text="" Name="AdministrativeEmployeeAvailabilityTextBox" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Save" HorizontalAlignment="Center" Margin="0,260,0,0" VerticalAlignment="Top" Width="74" Click="SaveButtonClicked"/>
+    </Grid>
+</Window>

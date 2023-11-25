@@ -12,7 +12,7 @@
         <Label Content="Student Last Name:" Margin="3,42,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Margin="121,46,0,0" TextWrapping="Wrap" Text="" Name="StudentLastNameTextBox" VerticalAlignment="Top" Width="120"/>
         <Label Content="Student Age:" Margin="38,72,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="121,76,0,0" TextWrapping="Wrap" Text="" Name="StudentAgeTextBox" VerticalAlignment="Top" Width="120" PreviewTextInput="NumericOnly_PreviewTextInput"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,76,0,0" TextWrapping="Wrap" Text="0" Name="StudentAgeTextBox" VerticalAlignment="Top" Width="120" PreviewTextInput="NumericOnly_PreviewTextInput"/>
         <Label Content="Graduate:" Margin="55,98,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <CheckBox HorizontalAlignment="Left" Margin="121,103,0,0" VerticalAlignment="Top" Name="StudentGraduateCheckBox"/>
         <Label Content="Contact Email:" Margin="30,122,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
