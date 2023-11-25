@@ -1,0 +1,22 @@
+﻿<Window x:Class="WpfApp1.ParentDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="ParentDialog" WindowStartupLocation="CenterScreen" Height="218" Width="270">
+    <Grid>
+        <Label Content="Parent First Name:" Margin="9,12,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,16,0,0" TextWrapping="Wrap" Text="" Name="ParentFirstNameTextBox"  VerticalAlignment="Top" Width="120"/>
+        <Label Content="Parent Last Name:" Margin="10,42,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,46,0,0" TextWrapping="Wrap" Text="" Name="ParentLastNameTextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Student Id:" Margin="48,70,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="121,72,0,0" Name="ParentStudentIdComboBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Parent Email:" Margin="37,97,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,101,0,0" TextWrapping="Wrap" Text="" Name="ParentEmailTextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Parent Phone:" Margin="32,120,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,124,0,0" TextWrapping="Wrap" Text="" Name="ParentPhoneTextBox" VerticalAlignment="Top" Width="120" PreviewTextInput="NumericOnly_PreviewTextInput"/>
+        <Button Content="Save" HorizontalAlignment="Center" Margin="0,158,0,0" VerticalAlignment="Top" Width="74" Click="SaveButtonClicked"/>
+    </Grid>
+</Window>

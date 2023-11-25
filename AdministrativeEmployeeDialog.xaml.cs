@@ -67,7 +67,7 @@ namespace WpfApp1
             AdministrativeEmployeeEmail = AdministrativeEmployeeEmailTextBox.Text;
             AdministrativeEmployeePhone = AdministrativeEmployeePhoneTextBox.Text;
             AdministrativeEmployeeDepartment = AdministrativeEmployeeDepartmentTextBox.Text;
-            AdministrativeEmployeeHireDate = AdministrativeEmployeeHireDateDatePicker.Text;
+            AdministrativeEmployeeHireDate = DateTime.Parse(AdministrativeEmployeeHireDateDatePicker.Text).ToString("yyyy-MM-dd");
             AdministrativeEmployeeSalary = int.Parse(AdministrativeEmployeeSalaryTextBox.Text);
             AdministrativeEmployeeIsFullTime = AdministrativeEmployeeIsFullTimeCheckBox.IsChecked ?? false;
             AdministrativeEmployeeAvailability = AdministrativeEmployeeAvailabilityTextBox.Text;

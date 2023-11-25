@@ -34,12 +34,15 @@ namespace WpfApp1
             "LEFT JOIN enrollments ON students.student_id = enrollments.student_id " +
             "LEFT JOIN courses ON enrollments.course_id = courses.course_id " +
             "GROUP BY students.student_id";
+        private const string parentsQuery = "SELECT * FROM parents";
         private const string coursesQuery = "SELECT * FROM courses";
-        private const string itemsQuery = "SELECT items.*, GROUP_CONCAT(courses.course_name SEPARATOR ', ') AS course " +
+        private const string itemsQuery = "SELECT items.*, GROUP_CONCAT(courses.course_id SEPARATOR ', ') AS course_id " +
             "FROM items " +
             "LEFT JOIN course_item ON items.item_id = course_item.item_id " +
             "LEFT JOIN courses ON course_item.course_id = courses.course_id " +
             "GROUP BY items.item_id";
+        private const string incomesQuery = "SELECT * FROM incomes";
+        private const string expensesQuery = "SELECT * FROM expenses";
         private const string connectionString = "Server=localhost;Database=project;PASSWORD=1234;UID=root;";
         public static readonly MySqlConnection connection = new(connectionString);
         public MainWindow()
@@ -52,40 +55,55 @@ namespace WpfApp1
             MySqlCommand administrativeCmd = new(administraiveQuery, connection);
             MySqlCommand janitorsCmd = new(janitorsQuery, connection);
             MySqlCommand studentsCmd = new(studentsQuery, connection);
+            MySqlCommand parentsCmd = new(parentsQuery, connection);
             MySqlCommand coursesCmd = new(coursesQuery, connection);
             MySqlCommand itemsCmd = new(itemsQuery, connection);
+            MySqlCommand incomesCmd = new(incomesQuery, connection);
+            MySqlCommand expensesCmd = new(expensesQuery, connection);
 
             DataTable employeesDataTable = new();
             DataTable teachersDataTable = new();
             DataTable administrativeDataTable = new();
             DataTable janitorsDataTable = new();
             DataTable studentsDataTable = new();
+            DataTable parentsDataTable = new();
             DataTable coursesDataTable = new();
             DataTable itemsDataTable = new();
+            DataTable incomesDataTable = new();
+            DataTable expensesDataTable = new();
 
             employeesDataTable.Load(employeesCmd.ExecuteReader());
             teachersDataTable.Load(teachersCmd.ExecuteReader());
             administrativeDataTable.Load(administrativeCmd.ExecuteReader());
             janitorsDataTable.Load(janitorsCmd.ExecuteReader());
             studentsDataTable.Load(studentsCmd.ExecuteReader());
+            parentsDataTable.Load(parentsCmd.ExecuteReader());
             coursesDataTable.Load(coursesCmd.ExecuteReader());
             itemsDataTable.Load(itemsCmd.ExecuteReader());
+            incomesDataTable.Load(incomesCmd.ExecuteReader());
+            expensesDataTable.Load(expensesCmd.ExecuteReader());
 
             CapitalizeHeaders(employeesDataTable);
             CapitalizeHeaders(teachersDataTable);
             CapitalizeHeaders(administrativeDataTable);
             CapitalizeHeaders(janitorsDataTable);
             CapitalizeHeaders(studentsDataTable);
+            CapitalizeHeaders(parentsDataTable);
             CapitalizeHeaders(coursesDataTable);
             CapitalizeHeaders(itemsDataTable);
+            CapitalizeHeaders(incomesDataTable);
+            CapitalizeHeaders(expensesDataTable);
 
             EmployeesGrid.ItemsSource = employeesDataTable.DefaultView;
             TeachersGrid.ItemsSource = teachersDataTable.DefaultView;
             AdministrativeEmployeesGrid.ItemsSource = administrativeDataTable.DefaultView;
             JanitorsGrid.ItemsSource = janitorsDataTable.DefaultView;
             StudentsGrid.ItemsSource = studentsDataTable.DefaultView;
+            ParentsGrid.ItemsSource = parentsDataTable.DefaultView;
             CoursesGrid.ItemsSource = coursesDataTable.DefaultView;
             ItemsGrid.ItemsSource = itemsDataTable.DefaultView;
+            IncomesGrid.ItemsSource = incomesDataTable.DefaultView;
+            ExpensesGrid.ItemsSource = expensesDataTable.DefaultView;
         }
 
         private void AddTeacherButton_Click(object sender, RoutedEventArgs e)
@@ -286,6 +304,38 @@ namespace WpfApp1
             }
         }
 
+        private void AddParentButton_Click(object sender, RoutedEventArgs e)
+        {
+            ParentDialog parentDialog = new();
+            bool? result = parentDialog.ShowDialog();
+
+            if (result == true)
+            {
+                string parentFirstName = parentDialog.ParentFirstName;
+                string parentLastName = parentDialog.ParentLastName;
+                int parentStudentId = parentDialog.ParentStudentId;
+                string parentEmail = parentDialog.ParentEmail;
+                string parentPhone = parentDialog.ParentPhone;
+
+                // Add the parent to the database.
+                string insertQuery = "INSERT INTO parents (first_name, last_name, student_id, contact_email, contact_phone) VALUES (@first_name, @last_name, @student_id, @email, @phone)";
+                MySqlCommand insertCommand = new(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@first_name", parentFirstName);
+                insertCommand.Parameters.AddWithValue("@last_name", parentLastName);
+                insertCommand.Parameters.AddWithValue("@student_id", parentStudentId);
+                insertCommand.Parameters.AddWithValue("@email", parentEmail);
+                insertCommand.Parameters.AddWithValue("@phone", parentPhone);
+
+                int rowsAffected = insertCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Refresh the parents grid with the updated data.
+                    RefreshParentsGrid();
+                }
+            }
+        }
+
         private void AddCourseButton_Click(object sender, RoutedEventArgs e)
         {
             CourseDialog courseDialog = new();
@@ -355,6 +405,64 @@ namespace WpfApp1
             }
         }
 
+        private void AddIncomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            IncomeDialog incomeDialog = new();
+            bool? result = incomeDialog.ShowDialog();
+
+            if (result == true)
+            {
+                string incomeType = incomeDialog.IncomeType;
+                int incomeAmount = incomeDialog.IncomeAmount;
+                string incomeDate = incomeDialog.IncomeDate;
+                string incomeDescription = incomeDialog.IncomeDescription;
+
+                // Add the income to the database.
+                string insertQuery = "INSERT INTO incomes (income_type, income_amount, income_date, income_description) VALUES (@income_type, @income_amount, @income_date, @income_description)";
+                MySqlCommand insertCommand = new(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@income_type", incomeType);
+                insertCommand.Parameters.AddWithValue("@income_amount", incomeAmount);
+                insertCommand.Parameters.AddWithValue("@income_date", incomeDate);
+                insertCommand.Parameters.AddWithValue("@income_description", incomeDescription);
+
+                int rowsAffected = insertCommand.ExecuteNonQuery();
+                if (rowsAffected > 0)
+                {
+                    // Refresh the incomes grid with the updated data.
+                    RefreshIncomesGrid();
+                }
+            }
+        }
+
+        private void AddExpenseButton_Click(object sender, RoutedEventArgs e)
+        {
+            ExpenseDialog expenseDialog = new();
+            bool? result = expenseDialog.ShowDialog();
+
+            if (result == true)
+            {
+                string expenseType = expenseDialog.ExpenseType;
+                int expenseAmount = expenseDialog.ExpenseAmount;
+                string expenseDate = expenseDialog.ExpenseDate;
+                string expenseDescription = expenseDialog.ExpenseDescription;
+
+                // Add the expense to the database.
+                string insertQuery = "INSERT INTO expenses (expense_type, expense_amount, expense_date, expense_description) VALUES (@expense_type, @expense_amount, @expense_date, @expense_description)";
+                MySqlCommand insertCommand = new(insertQuery, connection);
+                insertCommand.Parameters.AddWithValue("@expense_type", expenseType);
+                insertCommand.Parameters.AddWithValue("@expense_amount", expenseAmount);
+                insertCommand.Parameters.AddWithValue("@expense_date", expenseDate);
+                insertCommand.Parameters.AddWithValue("@expense_description", expenseDescription);
+
+                int rowsAffected = insertCommand.ExecuteNonQuery();
+                if (rowsAffected > 0)
+                {
+                    // Refresh the expenses grid with the updated data.
+                    RefreshExpensesGrid();
+                }
+            }
+        }
+
         // Method to refresh the EmployeesGrid with updated data from the database.
         private void RefreshEmployeesGrid()
         {
@@ -410,6 +518,17 @@ namespace WpfApp1
             StudentsGrid.ItemsSource = studentsDataTable.DefaultView;
         }
 
+        // Method to refresh the ParentsGrid with updated data from the database.
+        private void RefreshParentsGrid()
+        {
+            MySqlCommand parentsCmd = new(parentsQuery, connection);
+            DataTable parentsDataTable = new();
+            parentsDataTable.Load(parentsCmd.ExecuteReader());
+            CapitalizeHeaders(parentsDataTable);
+
+            ParentsGrid.ItemsSource = parentsDataTable.DefaultView;
+        }
+
         // Method to refresh the CoursesGrid with updated data from the database.
         private void RefreshCoursesGrid()
         {
@@ -430,6 +549,28 @@ namespace WpfApp1
             CapitalizeHeaders(itemsDataTable);
 
             ItemsGrid.ItemsSource = itemsDataTable.DefaultView;
+        }
+
+        // Method to refresh the IncomesGrid with updated data from the database.
+        private void RefreshIncomesGrid()
+        {
+            MySqlCommand incomesCmd = new(incomesQuery, connection);
+            DataTable incomesDataTable = new();
+            incomesDataTable.Load(incomesCmd.ExecuteReader());
+            CapitalizeHeaders(incomesDataTable);
+
+            IncomesGrid.ItemsSource = incomesDataTable.DefaultView;
+        }
+
+        // Method to refresh the ExpensesGrid with updated data from the database.
+        private void RefreshExpensesGrid()
+        {
+            MySqlCommand expensesCmd = new(expensesQuery, connection);
+            DataTable expensesDataTable = new();
+            expensesDataTable.Load(expensesCmd.ExecuteReader());
+            CapitalizeHeaders(expensesDataTable);
+
+            ExpensesGrid.ItemsSource = expensesDataTable.DefaultView;
         }
 
         // Method to capitalize the headers of a DataTable.
@@ -487,7 +628,7 @@ namespace WpfApp1
             }
             if (EmployeeHireDateFilter.Text != "")
             {
-                query += $"hire_date LIKE '%{EmployeeHireDateFilter.Text}%' AND ";
+                query += $"hire_date LIKE '%{DateTime.Parse(EmployeeHireDateFilter.Text).ToString("yyyy-MM-dd")}%' AND ";
             }
             if (EmployeeSalaryFilter.Text != "")
             {
@@ -555,7 +696,7 @@ namespace WpfApp1
             }
             if (TeacherHireDateFilter.Text != "")
             {
-                query += $"hire_date LIKE '%{TeacherHireDateFilter.Text}%' AND ";
+                query += $"hire_date LIKE '%{DateTime.Parse(TeacherHireDateFilter.Text).ToString("yyyy-MM-dd")}%' AND ";
             }
             if (TeacherSalaryFilter.Text != "")
             {
@@ -618,7 +759,7 @@ namespace WpfApp1
             }
             if (JanitorHireDateFilter.Text != "")
             {
-                query += $"hire_date LIKE '%{JanitorHireDateFilter.Text}%' AND ";
+                query += $"hire_date LIKE '%{DateTime.Parse(JanitorHireDateFilter.Text).ToString("yyyy-MM-dd")}%' AND ";
             }
             if (JanitorSalaryFilter.Text != "")
             {
@@ -686,7 +827,7 @@ namespace WpfApp1
             }
             if (AdministrativeEmployeeHireDateFilter.Text != "")
             {
-                query += $"hire_date LIKE '%{AdministrativeEmployeeHireDateFilter.Text}%' AND ";
+                query += $"hire_date LIKE '%{DateTime.Parse(AdministrativeEmployeeHireDateFilter.Text).ToString("yyyy-MM-dd")}%' AND ";
             }
             if (AdministrativeEmployeeSalaryFilter.Text != "")
             {
@@ -794,6 +935,54 @@ namespace WpfApp1
             StudentsGrid.ItemsSource = studentsDataTable.DefaultView;
         }
 
+        // Method to clear the filters for the ParentsGrid.
+        private void ParentClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            ParentFirstNameFilter.Text = "";
+            ParentLastNameFilter.Text = "";
+            ParentStudentIdFilter.Text = "";
+            ParentEmailFilter.Text = "";
+            ParentPhoneFilter.Text = "";
+
+            RefreshParentsGrid();
+        }
+
+        // Method to filter the ParentsGrid.
+        private void ParentFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            string query = "SELECT * FROM parents WHERE ";
+
+            if (ParentFirstNameFilter.Text != "")
+            {
+                query += $"first_name LIKE '%{ParentFirstNameFilter.Text}%' AND ";
+            }
+            if (ParentLastNameFilter.Text != "")
+            {
+                query += $"last_name LIKE '%{ParentLastNameFilter.Text}%' AND ";
+            }
+            if (ParentStudentIdFilter.Text != "")
+            {
+                query += $"student_id LIKE '%{ParentStudentIdFilter.Text}%' AND ";
+            }
+            if (ParentEmailFilter.Text != "")
+            {
+                query += $"email LIKE '%{ParentEmailFilter.Text}%' AND ";
+            }
+            if (ParentPhoneFilter.Text != "")
+            {
+                query += $"phone LIKE '%{ParentPhoneFilter.Text}%' AND ";
+            }
+
+            query = query.Remove(query.Length - 5);
+
+            MySqlCommand parentsCmd = new(query, connection);
+            DataTable parentsDataTable = new();
+            parentsDataTable.Load(parentsCmd.ExecuteReader());
+            CapitalizeHeaders(parentsDataTable);
+
+            ParentsGrid.ItemsSource = parentsDataTable.DefaultView;
+        }
+
         // Method to clear the filters for the CoursesGrid.
         private void CourseClearButton_Click(object sender, RoutedEventArgs e)
         {
@@ -851,7 +1040,7 @@ namespace WpfApp1
         // Method to filter the ItemsGrid.
         private void ItemFilterButton_Click(object sender, RoutedEventArgs e)
         {
-            string query = "SELECT items.*, GROUP_CONCAT(courses.course_name SEPARATOR ', ') AS course " +
+            string query = "SELECT items.*, GROUP_CONCAT(courses.course_id SEPARATOR ', ') AS course_id " +
                 "FROM items " +
                 "LEFT JOIN course_item ON items.item_id = course_item.item_id " +
                 "LEFT JOIN courses ON course_item.course_id = courses.course_id " +
@@ -876,7 +1065,7 @@ namespace WpfApp1
             }
             if (ItemCourseIdFilter.Text != "")
             {
-                query += $"course_id LIKE '%{ItemCourseIdFilter.Text}%' AND ";
+                query += $"courses.course_id LIKE '%{ItemCourseIdFilter.Text}%' AND ";
                 filterApplied = true;
             }
 
@@ -900,6 +1089,92 @@ namespace WpfApp1
             CapitalizeHeaders(itemsDataTable);
 
             ItemsGrid.ItemsSource = itemsDataTable.DefaultView;
+        }
+
+        // Method to clear the filters for the IncomesGrid.
+        private void IncomeClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            IncomeTypeFilter.Text = "";
+            IncomeAmountFilter.Text = "";
+            IncomeDateFilter.Text = "";
+            IncomeDescriptionFilter.Text = "";
+
+            RefreshIncomesGrid();
+        }
+
+        // Method to filter the IncomesGrid.
+        private void IncomeFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            string query = "SELECT * FROM incomes WHERE ";
+
+            if (IncomeTypeFilter.Text != "")
+            {
+                query += $"income_type LIKE '%{IncomeTypeFilter.Text}%' AND ";
+            }
+            if (IncomeAmountFilter.Text != "")
+            {
+                query += $"income_amount LIKE '%{IncomeAmountFilter.Text}%' AND ";
+            }
+            if (IncomeDateFilter.Text != "")
+            {
+                query += $"income_date LIKE '%{DateTime.Parse(IncomeDateFilter.Text).ToString("yyyy-MM-dd")}' AND ";
+            }
+            if (IncomeDescriptionFilter.Text != "")
+            {
+                query += $"income_description LIKE '%{IncomeDescriptionFilter.Text}%' AND ";
+            }
+
+            query = query.Remove(query.Length - 5);
+
+            MySqlCommand incomesCmd = new(query, connection);
+            DataTable incomesDataTable = new();
+            incomesDataTable.Load(incomesCmd.ExecuteReader());
+            CapitalizeHeaders(incomesDataTable);
+
+            IncomesGrid.ItemsSource = incomesDataTable.DefaultView;
+        }
+
+        // Method to clear the filters for the ExpensesGrid.
+        private void ExpenseClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            ExpenseTypeFilter.Text = "";
+            ExpenseAmountFilter.Text = "";
+            ExpenseDateFilter.Text = "";
+            ExpenseDescriptionFilter.Text = "";
+
+            RefreshExpensesGrid();
+        }
+
+        // Method to filter the ExpensesGrid.
+        private void ExpenseFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            string query = "SELECT * FROM expenses WHERE ";
+
+            if (ExpenseTypeFilter.Text != "")
+            {
+                query += $"expense_type LIKE '%{ExpenseTypeFilter.Text}%' AND ";
+            }
+            if (ExpenseAmountFilter.Text != "")
+            {
+                query += $"expense_amount LIKE '%{ExpenseAmountFilter.Text}%' AND ";
+            }
+            if (ExpenseDateFilter.Text != "")
+            {
+                query += $"expense_date LIKE '%{DateTime.Parse(ExpenseDateFilter.Text).ToString("yyyy-MM-dd")}' AND ";
+            }
+            if (ExpenseDescriptionFilter.Text != "")
+            {
+                query += $"expense_description LIKE '%{ExpenseDescriptionFilter.Text}%' AND ";
+            }
+
+            query = query.Remove(query.Length - 5);
+
+            MySqlCommand expensesCmd = new(query, connection);
+            DataTable expensesDataTable = new();
+            expensesDataTable.Load(expensesCmd.ExecuteReader());
+            CapitalizeHeaders(expensesDataTable);
+
+            ExpensesGrid.ItemsSource = expensesDataTable.DefaultView;
         }
     }
 }
