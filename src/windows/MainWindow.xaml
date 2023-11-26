@@ -5,13 +5,233 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
-    <Grid>
-        <DataGrid d:ItemsSource="{Binding}" Name="EmployeesGrid" Margin="0,57,0,264" Background="#FF12B1F1" RowBackground="#FF12B1F1" CanUserAddRows="False"/>
-        <DataGrid d:ItemsSource="{Binding}" Name="StudentsGrid" Margin="0,217,0,0" Background="#FF19DD6C" RowBackground="#FF19DD6C" CanUserAddRows="False"/>
-        <Label Content="Employees" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top"/>
-        <Label Content="Students" HorizontalAlignment="Left" Margin="10,191,0,0" VerticalAlignment="Top"/>
-        <Button Content="Add Student" Name="AddStudent" HorizontalAlignment="Left" Margin="71,194,0,0" VerticalAlignment="Top" Click="AddStudentButton_Click"/>
+        Title="MainWindow" Height="550" Width="1000" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
+    <Grid Height="550" Width="1000">
+        <TabControl>
+            <TabItem Header="Employees">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Employees" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="EmployeesGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                    <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
+                    <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="EmployeeFirstNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Last Name:" HorizontalAlignment="Left" Margin="0,200,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="EmployeeLastNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Email:" HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="EmployeeEmailFilter" HorizontalAlignment="Left" Height="23" Margin="95,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Phone:" HorizontalAlignment="Left" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="EmployeePhoneFilter" HorizontalAlignment="Left" Height="23" Margin="95,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Hire Date:" HorizontalAlignment="Left" Margin="0,275,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <DatePicker Name="EmployeeHireDateFilter" HorizontalAlignment="Left" Height="23" Margin="95,276,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Salary:" HorizontalAlignment="Left" Margin="0,300,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="EmployeeSalaryFilter" HorizontalAlignment="Left" Height="23" Margin="95,301,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Full Time:" HorizontalAlignment="Left" Margin="0,325,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <CheckBox Name="EmployeeIsFullTimeFilter" HorizontalAlignment="Left" Height="16" Margin="95,330,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Availability:" HorizontalAlignment="Left" Margin="0,350,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="EmployeeAvailabilityFilter" HorizontalAlignment="Left" Height="23" Margin="95,351,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Clear Filters" Name="EmployeeClearButton" HorizontalAlignment="Left" Margin="0,379,0,0" VerticalAlignment="Top" FontSize="18" Click="EmployeeClearButton_Click"/>
+                    <Button Content="Filter" Name="EmployeeFilterButton" HorizontalAlignment="Left" Margin="111,379,0,0" VerticalAlignment="Top" FontSize="18" Click="EmployeeFilterButton_Click"/>
 
+                </Grid>
+            </TabItem>
+            <TabItem Header="Teachers">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Teachers" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="TeachersGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                    <Button Content="Add Teacher" Name="AddTeacher" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddTeacherButton_Click"/>
+                    <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
+                    <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="TeacherFirstNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Last Name:" HorizontalAlignment="Left" Margin="0,200,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="TeacherLastNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Email:" HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="TeacherEmailFilter" HorizontalAlignment="Left" Height="23" Margin="95,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Phone:" HorizontalAlignment="Left" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="TeacherPhoneFilter" HorizontalAlignment="Left" Height="23" Margin="95,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Specialty:" HorizontalAlignment="Left" Margin="0,275,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="TeacherSpecialtyFilter" HorizontalAlignment="Left" Height="23" Margin="95,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Hire Date:" HorizontalAlignment="Left" Margin="0,300,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <DatePicker Name="TeacherHireDateFilter" HorizontalAlignment="Left" Height="23" Margin="95,301,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Salary:" HorizontalAlignment="Left" Margin="0,325,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="TeacherSalaryFilter" HorizontalAlignment="Left" Height="23" Margin="95,326,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Full Time:" HorizontalAlignment="Left" Margin="0,350,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <CheckBox Name="TeacherIsFullTimeFilter" HorizontalAlignment="Left" Height="16" Margin="95,355,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Availability:" HorizontalAlignment="Left" Margin="0,375,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="TeacherAvailabilityFilter" HorizontalAlignment="Left" Height="23" Margin="95,376,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Clear Filters" Name="TeacherClearButton" HorizontalAlignment="Left" Margin="0,404,0,0" VerticalAlignment="Top" FontSize="18" Click="TeacherClearButton_Click"/>
+                    <Button Content="Filter" Name="TeacherFilterButton" HorizontalAlignment="Left" Margin="111,404,0,0" VerticalAlignment="Top" FontSize="18" Click="TeacherFilterButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Janitors">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Janitors" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="JanitorsGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                    <Button Content="Add Janitor" Name="AddJanitor" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddJanitorButton_Click"/>
+                    <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
+                    <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="JanitorFirstNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Last Name:" HorizontalAlignment="Left" Margin="0,200,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="JanitorLastNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Email:" HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="JanitorEmailFilter" HorizontalAlignment="Left" Height="23" Margin="95,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Phone:" HorizontalAlignment="Left" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="JanitorPhoneFilter" HorizontalAlignment="Left" Height="23" Margin="95,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Hire Date:" HorizontalAlignment="Left" Margin="0,275,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <DatePicker Name="JanitorHireDateFilter" HorizontalAlignment="Left" Height="23" Margin="95,276,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Salary:" HorizontalAlignment="Left" Margin="0,300,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="JanitorSalaryFilter" HorizontalAlignment="Left" Height="23" Margin="95,301,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Full Time:" HorizontalAlignment="Left" Margin="0,325,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <CheckBox Name="JanitorIsFullTimeFilter" HorizontalAlignment="Left" Height="16" Margin="95,330,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Availability:" HorizontalAlignment="Left" Margin="0,350,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="JanitorAvailabilityFilter" HorizontalAlignment="Left" Height="23" Margin="95,351,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Clear Filters" Name="JanitorClearButton" HorizontalAlignment="Left" Margin="0,379,0,0" VerticalAlignment="Top" FontSize="18" Click="JanitorClearButton_Click"/>
+                    <Button Content="Filter" Name="JanitorFilterButton" HorizontalAlignment="Left" Margin="111,379,0,0" VerticalAlignment="Top" FontSize="18" Click="JanitorFilterButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Administrative Employees">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Administrative" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="AdministrativeEmployeesGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                    <Button Content="Add Administrative" Name="AddAdministrativeEmployee" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddAdministrativeEmployeeButton_Click"/>
+                    <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
+                    <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="AdministrativeEmployeeFirstNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Last Name:" HorizontalAlignment="Left" Margin="0,200,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="AdministrativeEmployeeLastNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Email:" HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="AdministrativeEmployeeEmailFilter" HorizontalAlignment="Left" Height="23" Margin="95,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Phone:" HorizontalAlignment="Left" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="AdministrativeEmployeePhoneFilter" HorizontalAlignment="Left" Height="23" Margin="95,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Department:" HorizontalAlignment="Left" Margin="0,275,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="AdministrativeEmployeeDepartmentFilter" HorizontalAlignment="Left" Height="23" Margin="95,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Hire Date:" HorizontalAlignment="Left" Margin="0,300,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <DatePicker Name="AdministrativeEmployeeHireDateFilter" HorizontalAlignment="Left" Height="23" Margin="95,301,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Salary:" HorizontalAlignment="Left" Margin="0,325,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="AdministrativeEmployeeSalaryFilter" HorizontalAlignment="Left" Height="23" Margin="95,326,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Full Time:" HorizontalAlignment="Left" Margin="0,350,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <CheckBox Name="AdministrativeEmployeeIsFullTimeFilter" HorizontalAlignment="Left" Height="16" Margin="95,355,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Availability:" HorizontalAlignment="Left" Margin="0,375,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="AdministrativeEmployeeAvailabilityFilter" HorizontalAlignment="Left" Height="23" Margin="95,376,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Clear Filters" Name="AdministrativeEmployeeClearButton" HorizontalAlignment="Left" Margin="0,404,0,0" VerticalAlignment="Top" FontSize="18" Click="AdministrativeEmployeeClearButton_Click"/>
+                    <Button Content="Filter" Name="AdministrativeEmployeeFilterButton" HorizontalAlignment="Left" Margin="111,404,0,0" VerticalAlignment="Top" FontSize="18" Click="AdministrativeEmployeeFilterButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Students">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Students" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="StudentsGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                    <Button Content="Add Student" Name="AddStudent" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddStudentButton_Click"/>
+                    <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
+                    <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="StudentFirstNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Last Name:" HorizontalAlignment="Left" Margin="0,200,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="StudentLastNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Age:" HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="StudentAgeFilter" HorizontalAlignment="Left" Height="23" Margin="95,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Graduate:" HorizontalAlignment="Left" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <CheckBox Name="StudentIsGraduateFilter" HorizontalAlignment="Left" Height="16" Margin="95,255,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Email" HorizontalAlignment="Left" Margin="0,275,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="StudentEmailFilter" HorizontalAlignment="Left" Height="23" Margin="95,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Phone:" HorizontalAlignment="Left" Margin="0,300,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="StudentPhoneFilter" HorizontalAlignment="Left" Height="23" Margin="95,301,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Availability" HorizontalAlignment="Left" Margin="0,325,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="StudentAvailabilityFilter" HorizontalAlignment="Left" Height="23" Margin="95,326,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Clear Filters" Name="StudentClearButton" HorizontalAlignment="Left" Margin="0,354,0,0" VerticalAlignment="Top" FontSize="18" Click="StudentClearButton_Click"/>
+                    <Button Content="Filter" Name="StudentFilterButton" HorizontalAlignment="Left" Margin="111,354 ,0,0" VerticalAlignment="Top" FontSize="18" Click="StudentFilterButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Parents">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Parents" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="ParentsGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                    <Button Content="Add Parent" Name="AddParent" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddParentButton_Click"/>
+                    <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
+                    <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ParentFirstNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Last Name:" HorizontalAlignment="Left" Margin="0,200,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ParentLastNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Student Id:" HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ParentStudentIdFilter" HorizontalAlignment="Left" Height="23" Margin="95,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Email:" HorizontalAlignment="Left" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ParentEmailFilter" HorizontalAlignment="Left" Height="23" Margin="95,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Phone:" HorizontalAlignment="Left" Margin="0,275,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ParentPhoneFilter" HorizontalAlignment="Left" Height="23" Margin="95,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Clear Filters" Name="ParentClearButton" HorizontalAlignment="Left" Margin="0,304,0,0" VerticalAlignment="Top" FontSize="18" Click="ParentClearButton_Click"/>
+                    <Button Content="Filter" Name="ParentFilterButton" HorizontalAlignment="Left" Margin="111,304 ,0,0" VerticalAlignment="Top" FontSize="18" Click="ParentFilterButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Courses">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Courses" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="CoursesGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                    <Button Content="Add Course" Name="AddCourse" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddCourseButton_Click"/>
+                    <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
+                    <Label Content="Course Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="CourseNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Teacher Id:" HorizontalAlignment="Left" Margin="0,200,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="CourseTeacherIdFilter" HorizontalAlignment="Left" Height="23" Margin="95,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Schedule:" HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="CourseScheduleFilter" HorizontalAlignment="Left" Height="23" Margin="95,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Status:" HorizontalAlignment="Left" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <CheckBox Name="CourseStatusFilter" HorizontalAlignment="Left" Height="16" Margin="95,255,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Clear Filters" Name="CourseClearButton" HorizontalAlignment="Left" Margin="0,283,0,0" VerticalAlignment="Top" FontSize="18" Click="CourseClearButton_Click"/>
+                    <Button Content="Filter" Name="CourseFilterButton" HorizontalAlignment="Left" Margin="111,283,0,0" VerticalAlignment="Top" FontSize="18" Click="CourseFilterButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Items">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Items" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="ItemsGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                    <Button Content="Add Item" Name="AddItem" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddItemButton_Click"/>
+                    <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
+                    <Label Content="Item Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ItemNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Item Quantity:" HorizontalAlignment="Left" Margin="0,200,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ItemQuantityFilter" HorizontalAlignment="Left" Height="23" Margin="95,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="ItemDescription:" HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ItemDescriptionFilter" HorizontalAlignment="Left" Height="23" Margin="95,226,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Course Id:" HorizontalAlignment="Left" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ItemCourseIdFilter" HorizontalAlignment="Left" Height="23" Margin="95,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Clear Filters" Name="ItemClearButton" HorizontalAlignment="Left" Margin="0,283,0,0" VerticalAlignment="Top" FontSize="18" Click="ItemClearButton_Click"/>
+                    <Button Content="Filter" Name="ItemFilterButton" HorizontalAlignment="Left" Margin="111,283,0,0" VerticalAlignment="Top" FontSize="18" Click="ItemFilterButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Incomes">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Incomes" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="IncomesGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                    <Button Content="Add Income" Name="AddIncome" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddIncomeButton_Click"/>
+                    <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
+                    <Label Content="Income Type:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="IncomeTypeFilter" HorizontalAlignment="Left" Height="23" Margin="95,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Income Amount:" HorizontalAlignment="Left" Margin="0,200,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="IncomeAmountFilter" HorizontalAlignment="Left" Height="23" Margin="95,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Income Date:" HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <DatePicker Name="IncomeDateFilter" HorizontalAlignment="Left" Height="23" Margin="95,226,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Description:" HorizontalAlignment="Left" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="IncomeDescriptionFilter" HorizontalAlignment="Left" Height="23" Margin="95,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Clear Filters" Name="IncomeClearButton" HorizontalAlignment="Left" Margin="0,283,0,0" VerticalAlignment="Top" FontSize="18" Click="IncomeClearButton_Click"/>
+                    <Button Content="Filter" Name="IncomeFilterButton" HorizontalAlignment="Left" Margin="111,283,0,0" VerticalAlignment="Top" FontSize="18" Click="IncomeFilterButton_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Expenses">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Expenses" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="ExpensesGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                    <Button Content="Add Expense" Name="AddExpense" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddExpenseButton_Click"/>
+                    <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
+                    <Label Content="Expense Type:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ExpenseTypeFilter" HorizontalAlignment="Left" Height="23" Margin="95,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Expense Amount:" HorizontalAlignment="Left" Margin="0,200,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ExpenseAmountFilter" HorizontalAlignment="Left" Height="23" Margin="95,201,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Expense Date:" HorizontalAlignment="Left" Margin="0,225,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <DatePicker Name="ExpenseDateFilter" HorizontalAlignment="Left" Height="23" Margin="95,226,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Label Content="Description:" HorizontalAlignment="Left" Margin="0,250,0,0" VerticalAlignment="Top" FontSize="12"/>
+                    <TextBox Name="ExpenseDescriptionFilter" HorizontalAlignment="Left" Height="23" Margin="95,251,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Clear Filters" Name="ExpenseClearButton" HorizontalAlignment="Left" Margin="0,283,0,0" VerticalAlignment="Top" FontSize="18" Click="ExpenseClearButton_Click"/>
+                    <Button Content="Filter" Name="ExpenseFilterButton" HorizontalAlignment="Left" Margin="111,283,0,0" VerticalAlignment="Top" FontSize="18" Click="ExpenseFilterButton_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

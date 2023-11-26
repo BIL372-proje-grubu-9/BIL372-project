@@ -19,30 +19,47 @@ namespace WpfApp1
     /// </summary>
     public partial class StudentDialog : Window
     {
-        public string StudentName { get; set; }
-        public string StudentAge { get; set; }
+        public string StudentFirstName { get; set; }
+        public string StudentLastName { get; set; }
+        public int StudentAge { get; set; }
+        public bool StudentGraduate { get; set; }
+        public string ContactEmail { get; set; }
+        public string ContactPhone { get; set; }
+        public string Availability { get; set; }
         public StudentDialog()
         {
             InitializeComponent();
+            StudentFirstName = string.Empty;
+            StudentLastName = string.Empty;
+            StudentAge = 0;
+            StudentGraduate = false;
+            ContactEmail = string.Empty;
+            ContactPhone = string.Empty;
+            Availability = string.Empty;
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        private void SaveButtonClicked(object sender, RoutedEventArgs e)
         {
             // Validate input (you can add more validation if needed).
-            if (string.IsNullOrWhiteSpace(StudentNameTextBox.Text))
+            if (string.IsNullOrWhiteSpace(StudentFirstNameTextBox.Text))
             {
-                MessageBox.Show("Please enter the student's name.");
+                MessageBox.Show("Please enter the student's first name.");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(StudentAgeTextBox.Text))
+            if (string.IsNullOrWhiteSpace(StudentLastNameTextBox.Text))
             {
-                MessageBox.Show("Please enter the student's age.");
+                MessageBox.Show("Please enter the student's last name.");
                 return;
             }
 
             // Set the StudentName and StudentAge property with the entered name.
-            StudentName = StudentNameTextBox.Text;
-            StudentAge = StudentAgeTextBox.Text;
+            StudentFirstName = StudentFirstNameTextBox.Text;
+            StudentLastName = StudentLastNameTextBox.Text;
+            StudentAge = int.Parse(StudentAgeTextBox.Text);
+            StudentGraduate = StudentGraduateCheckBox.IsChecked ?? false;
+            ContactEmail = StudentEmailTextBox.Text;
+            ContactPhone = StudentPhoneTextBox.Text;
+            Availability = StudentAvailabilityTextBox.Text;
 
             // Close the dialog with a "true" result to indicate success.
             DialogResult = true;
@@ -55,6 +72,5 @@ namespace WpfApp1
                 e.Handled = true; // Cancel the input if it's not a valid integer.
             }
         }
-
     }
 }
