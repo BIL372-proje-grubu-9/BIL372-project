@@ -28,6 +28,7 @@ namespace WpfApp1
         public int AdministrativeEmployeeSalary { get; set; }
         public bool AdministrativeEmployeeIsFullTime { get; set; }
         public string AdministrativeEmployeeAvailability { get; set; }
+
         public AdministrativeEmployeeDialog()
         {
             InitializeComponent();
@@ -42,45 +43,68 @@ namespace WpfApp1
             AdministrativeEmployeeAvailability = string.Empty;
         }
 
+        // Add more validation if needed
+        private bool IsInputValid()
+        {
+			if (string.IsNullOrWhiteSpace(AdministrativeEmployeeFirstNameTextBox.Text))
+			{
+				MessageBox.Show("Please enter the administrative employee's first name.");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(AdministrativeEmployeeLastNameTextBox.Text))
+			{
+				MessageBox.Show("Please enter the administrative employee's last name.");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(AdministrativeEmployeeHireDateDatePicker.Text))
+			{
+				MessageBox.Show("Please enter the administrative employee's hire date.");
+				return false;
+			}
+
+            return true;
+		}
+
+        private void SaveInputValues()
+        {
+			AdministrativeEmployeeFirstName = AdministrativeEmployeeFirstNameTextBox.Text;
+			AdministrativeEmployeeLastName = AdministrativeEmployeeLastNameTextBox.Text;
+			AdministrativeEmployeeEmail = AdministrativeEmployeeEmailTextBox.Text;
+			AdministrativeEmployeePhone = AdministrativeEmployeePhoneTextBox.Text;
+			AdministrativeEmployeeDepartment = AdministrativeEmployeeDepartmentTextBox.Text;
+			AdministrativeEmployeeHireDate = DateTime.Parse(AdministrativeEmployeeHireDateDatePicker.Text).ToString("yyyy-MM-dd");
+			AdministrativeEmployeeSalary = int.Parse(AdministrativeEmployeeSalaryTextBox.Text);
+			AdministrativeEmployeeIsFullTime = AdministrativeEmployeeIsFullTimeCheckBox.IsChecked ?? false;
+			AdministrativeEmployeeAvailability = AdministrativeEmployeeAvailabilityTextBox.Text;
+		}
+
         private void SaveButtonClicked(object sender, RoutedEventArgs e)
         {
-            // Validate input (you can add more validation if needed).
-            if (string.IsNullOrWhiteSpace(AdministrativeEmployeeFirstNameTextBox.Text))
+            if (IsInputValid() == false)
             {
-                MessageBox.Show("Please enter the administrative employee's first name.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(AdministrativeEmployeeLastNameTextBox.Text))
-            {
-                MessageBox.Show("Please enter the administrative employee's last name.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(AdministrativeEmployeeHireDateDatePicker.Text))
-            {
-                MessageBox.Show("Please enter the administrative employee's hire date.");
-                return;
+                return false;
             }
 
-            // Save values.
-            AdministrativeEmployeeFirstName = AdministrativeEmployeeFirstNameTextBox.Text;
-            AdministrativeEmployeeLastName = AdministrativeEmployeeLastNameTextBox.Text;
-            AdministrativeEmployeeEmail = AdministrativeEmployeeEmailTextBox.Text;
-            AdministrativeEmployeePhone = AdministrativeEmployeePhoneTextBox.Text;
-            AdministrativeEmployeeDepartment = AdministrativeEmployeeDepartmentTextBox.Text;
-            AdministrativeEmployeeHireDate = DateTime.Parse(AdministrativeEmployeeHireDateDatePicker.Text).ToString("yyyy-MM-dd");
-            AdministrativeEmployeeSalary = int.Parse(AdministrativeEmployeeSalaryTextBox.Text);
-            AdministrativeEmployeeIsFullTime = AdministrativeEmployeeIsFullTimeCheckBox.IsChecked ?? false;
-            AdministrativeEmployeeAvailability = AdministrativeEmployeeAvailabilityTextBox.Text;
+			SaveInputValues();
 
             // Close dialog box with OK result.
             DialogResult = true;
         }
+
+        private bool IsParsableToInt(string text)
+        {
+			!int.TryParse(text, out _)
+
+		}
+
         private void NumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // Use this event handler to allow only numeric input.
-            if (!int.TryParse(e.Text, out _))
+            if (IsParsableToInt(e.text) == false)
             {
-                e.Handled = true; // Cancel the input if it's not a valid integer.
+                // Cancel the input
+                e.Handled = true;
             }
         }
     }
