@@ -29,6 +29,7 @@ namespace WpfApp1
         public int TeacherSalary { get; set; }
         public bool TeacherIsFullTime { get; set; }
         public string TeacherAvailability { get; set; }
+
         public TeacherDialog()
         {
             InitializeComponent();
@@ -42,47 +43,68 @@ namespace WpfApp1
             TeacherIsFullTime = false;
             TeacherAvailability = string.Empty;
         }
+        
+        private bool IsInputValid()
+        {
+			if (string.IsNullOrWhiteSpace(TeacherFirstNameTextBox.Text))
+			{
+				MessageBox.Show("Please enter the teacher's first name.");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(TeacherLastNameTextBox.Text))
+			{
+				MessageBox.Show("Please enter the teacher's last name.");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(TeacherHireDateDatePicker.Text))
+			{
+				MessageBox.Show("Please enter the teacher's hire date.");
+				return false;
+			}
+
+            return true;
+		}
+
+        private void SaveInputValues()
+        {
+			TeacherFirstName = TeacherFirstNameTextBox.Text;
+			TeacherLastName = TeacherLastNameTextBox.Text;
+			TeacherEmail = TeacherEmailTextBox.Text;
+			TeacherPhone = TeacherPhoneTextBox.Text;
+			TeacherSpecialty = TeacherSpecialtyTextBox.Text;
+			TeacherHireDate = DateTime.Parse(TeacherHireDateDatePicker.Text).ToString("yyyy-MM-dd");
+			TeacherSalary = int.Parse(TeacherSalaryTextBox.Text);
+			TeacherIsFullTime = TeacherIsFullTimeCheckBox.IsChecked ?? false;
+			TeacherAvailability = TeacherAvailabilityTextBox.Text;
+		}
 
         private void SaveButtonClicked(object sender, RoutedEventArgs e)
         {
-            // Validate input (you can add more validation if needed).
-            if (string.IsNullOrWhiteSpace(TeacherFirstNameTextBox.Text))
+            if (IsInputValid() == false)
             {
-                MessageBox.Show("Please enter the teacher's first name.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(TeacherLastNameTextBox.Text))
-            {
-                MessageBox.Show("Please enter the teacher's last name.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(TeacherHireDateDatePicker.Text))
-            {
-                MessageBox.Show("Please enter the teacher's hire date.");
                 return;
             }
 
-            // Set the TeacherName and TeacherAge property with the entered name.
-            TeacherFirstName = TeacherFirstNameTextBox.Text;
-            TeacherLastName = TeacherLastNameTextBox.Text;
-            TeacherEmail = TeacherEmailTextBox.Text;
-            TeacherPhone = TeacherPhoneTextBox.Text;
-            TeacherSpecialty = TeacherSpecialtyTextBox.Text;
-            TeacherHireDate = DateTime.Parse(TeacherHireDateDatePicker.Text).ToString("yyyy-MM-dd");
-            TeacherSalary = int.Parse(TeacherSalaryTextBox.Text);
-            TeacherIsFullTime = TeacherIsFullTimeCheckBox.IsChecked ?? false;
-            TeacherAvailability = TeacherAvailabilityTextBox.Text;
+            SaveInputValues();
 
             // Close the dialog box and return true.
             DialogResult = true;
         }
-        private void NumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
+
+		private bool IsParsableToInt(string text)
+		{
+			!int.TryParse(text, out _)
+		}
+
+		private void NumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // Use this event handler to allow only numeric input.
-            if (!int.TryParse(e.Text, out _))
-            {
-                e.Handled = true; // Cancel the input if it's not a valid integer.
-            }
-        }
+			if (IsParsableToInt(e.text) == false)
+			{
+				// Cancel the input
+				e.Handled = true;
+			}
+		}
     }
 }
