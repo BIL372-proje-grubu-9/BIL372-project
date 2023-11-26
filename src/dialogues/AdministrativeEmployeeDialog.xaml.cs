@@ -96,7 +96,6 @@ namespace WpfApp1
         private bool IsParsableToInt(string text)
         {
 			!int.TryParse(text, out _)
-
 		}
 
         private void NumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
