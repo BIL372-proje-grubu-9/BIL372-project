@@ -31,7 +31,6 @@
                     <TextBox Name="EmployeeAvailabilityFilter" HorizontalAlignment="Left" Height="23" Margin="95,351,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
                     <Button Content="Clear Filters" Name="EmployeeClearButton" HorizontalAlignment="Left" Margin="0,379,0,0" VerticalAlignment="Top" FontSize="18" Click="EmployeeClearButton_Click"/>
                     <Button Content="Filter" Name="EmployeeFilterButton" HorizontalAlignment="Left" Margin="111,379,0,0" VerticalAlignment="Top" FontSize="18" Click="EmployeeFilterButton_Click"/>
-
                 </Grid>
             </TabItem>
             <TabItem Header="Teachers">
