@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,15 +41,14 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Schedule = "";
             for (int i = 0; i < checkboxes.Length; i++)
             {
                 if (checkboxes[i].IsChecked == true)
                 {
                     Schedule += checkboxes[i].Name.Substring(8) + ",";
                 }
-                Schedule = Schedule.TrimEnd(',');
             }
+            Schedule = Schedule.TrimEnd(',');
             DialogResult = true;
         }
     }

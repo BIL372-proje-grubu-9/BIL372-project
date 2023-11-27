@@ -64,6 +64,13 @@ namespace WpfApp1
             DialogResult = true;
         }
 
+        private void ScheduleButtonClicked(object sender, RoutedEventArgs e)
+        {
+            ScheduleSelectorDialog scheduleSelectorDialog = new();
+            if (scheduleSelectorDialog.ShowDialog() == true)
+                CourseScheduleTextBox.Text = scheduleSelectorDialog.Schedule;
+        }
+
         private void PopulateTeacherIdComboBox()
         {
             // Populate the TeacherIdComboBox with the teacher ids.

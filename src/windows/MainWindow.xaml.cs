@@ -25,11 +25,14 @@ namespace WpfApp1
     public partial class MainWindow : Window
     {
         private const string employeesQuery = "SELECT * FROM employees";
-        private const string teachersQuery = "SELECT * FROM teachers";
+        private const string teachersQuery = "SELECT teachers.*, GROUP_CONCAT(courses.course_name SEPARATOR ', ') AS courses_taught, GROUP_CONCAT(courses.schedule SEPARATOR ', ') AS schedule " +
+            "FROM teachers " +
+            "LEFT JOIN courses ON teachers.teacher_id = courses.teacher_id " +
+            "GROUP BY teachers.teacher_id";
         private const string administraiveQuery = "SELECT * FROM administrative_employees";
         private const string janitorsQuery = "SELECT * FROM janitors";
         private const string studentsQuery = 
-            "SELECT students.*, GROUP_CONCAT(courses.course_name SEPARATOR ', ') AS enrolled_courses " +
+            "SELECT students.*, GROUP_CONCAT(courses.course_name SEPARATOR ', ') AS enrolled_courses, GROUP_CONCAT(courses.schedule SEPARATOR ', ') AS schedule " +
             "FROM students " +
             "LEFT JOIN enrollments ON students.student_id = enrollments.student_id " +
             "LEFT JOIN courses ON enrollments.course_id = courses.course_id " +
@@ -360,8 +363,10 @@ namespace WpfApp1
 
                 if (rowsAffected > 0)
                 {
-                    // Refresh the courses grid with the updated data.
+                    // Refresh the courses, students, teachers grid with the updated data.
                     RefreshCoursesGrid();
+                    RefreshStudentsGrid();
+                    RefreshTeachersGrid();
                 }
             }
         }
@@ -460,6 +465,336 @@ namespace WpfApp1
                     // Refresh the expenses grid with the updated data.
                     RefreshExpensesGrid();
                 }
+            }
+        }
+
+        // Cell edit event handler for the TeachersGrid.
+        private void TeachersGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            // Get the row and column of the cell that was edited.
+            int rowIndex = e.Row.GetIndex();
+            int columnIndex = e.Column.DisplayIndex;
+
+            // Get the teacher ID of the teacher that was edited.
+            int teacherId = (int)((DataRowView)e.Row.Item).Row.ItemArray[0];
+
+            // Get the new value of the cell that was edited.
+            string newValue = ((TextBox)e.EditingElement).Text;
+
+            // Get the column name of the cell that was edited.
+            string columnName = ((DataGridTextColumn)e.Column).Header.ToString().ToLower().Replace(' ', '_');
+
+            // Update the teacher in the database.
+            string updateQuery = $"UPDATE teachers SET {columnName} = @new_value WHERE teacher_id = @teacher_id";
+            MySqlCommand updateCommand = new(updateQuery, connection);
+            updateCommand.Parameters.AddWithValue("@new_value", newValue);
+            updateCommand.Parameters.AddWithValue("@teacher_id", teacherId);
+
+            int rowsAffected = updateCommand.ExecuteNonQuery();
+
+            //Get the employeeGrid's columns and if columnNames contains the columnName, update the employee in the database.
+            EmployeesGrid.Columns.ToList().ForEach(column =>
+            {
+                string employeeColumnName = column.Header.ToString().ToLower().Replace(' ', '_');
+                if (employeeColumnName == columnName)
+                {
+                    updateQuery = $"UPDATE employees SET {columnName} = @new_value WHERE employee_id = @employee_id";
+                    updateCommand = new(updateQuery, connection);
+                    updateCommand.Parameters.AddWithValue("@new_value", newValue);
+                    updateCommand.Parameters.AddWithValue("@employee_id", teacherId);
+
+                    rowsAffected += updateCommand.ExecuteNonQuery();
+                }
+            });
+
+            rowsAffected += updateCommand.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                // Refresh the employees grid with the updated data.
+                RefreshEmployeesGrid();
+            }
+        }
+
+        // Cell edit event handler for the JanitorsGrid.
+        private void JanitorsGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            // Get the row and column of the cell that was edited.
+            int rowIndex = e.Row.GetIndex();
+            int columnIndex = e.Column.DisplayIndex;
+
+            // Get the janitor ID of the janitor that was edited.
+            int janitorId = (int)((DataRowView)e.Row.Item).Row.ItemArray[0];
+
+            // Get the new value of the cell that was edited.
+            string newValue = ((TextBox)e.EditingElement).Text;
+
+            // Get the column name of the cell that was edited.
+            string columnName = ((DataGridTextColumn)e.Column).Header.ToString().ToLower().Replace(' ', '_');
+
+            // Update the janitor in the database.
+            string updateQuery = $"UPDATE janitors SET {columnName} = @new_value WHERE janitor_id = @janitor_id";
+            MySqlCommand updateCommand = new(updateQuery, connection);
+            updateCommand.Parameters.AddWithValue("@new_value", newValue);
+            updateCommand.Parameters.AddWithValue("@janitor_id", janitorId);
+
+            int rowsAffected = updateCommand.ExecuteNonQuery();
+
+            //Get the employeeGrid's columns and if columnNames contains the columnName, update the employee in the database.
+            EmployeesGrid.Columns.ToList().ForEach(column =>
+            {
+                string employeeColumnName = column.Header.ToString().ToLower().Replace(' ', '_');
+                if (employeeColumnName == columnName)
+                {
+                    updateQuery = $"UPDATE employees SET {columnName} = @new_value WHERE employee_id = @employee_id";
+                    updateCommand = new(updateQuery, connection);
+                    updateCommand.Parameters.AddWithValue("@new_value", newValue);
+                    updateCommand.Parameters.AddWithValue("@employee_id", janitorId);
+
+                    rowsAffected += updateCommand.ExecuteNonQuery();
+                }
+            });
+
+            rowsAffected += updateCommand.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                // Refresh the employees grid with the updated data.
+                RefreshEmployeesGrid();
+            }
+        }
+
+        // Cell edit event handler for the AdministrativeEmployeesGrid.
+        private void AdministrativeEmployeesGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            // Get the row and column of the cell that was edited.
+            int rowIndex = e.Row.GetIndex();
+            int columnIndex = e.Column.DisplayIndex;
+
+            // Get the administrative employee ID of the administrative employee that was edited.
+            int administrativeEmployeeId = (int)((DataRowView)e.Row.Item).Row.ItemArray[0];
+
+            // Get the new value of the cell that was edited.
+            string newValue = ((TextBox)e.EditingElement).Text;
+
+            // Get the column name of the cell that was edited.
+            string columnName = ((DataGridTextColumn)e.Column).Header.ToString().ToLower().Replace(' ', '_');
+
+            // Update the administrative employee in the database.
+            string updateQuery = $"UPDATE administrative_employees SET {columnName} = @new_value WHERE administrative_employee_id = @administrative_employee_id";
+            MySqlCommand updateCommand = new(updateQuery, connection);
+            updateCommand.Parameters.AddWithValue("@new_value", newValue);
+            updateCommand.Parameters.AddWithValue("@administrative_employee_id", administrativeEmployeeId);
+
+            int rowsAffected = updateCommand.ExecuteNonQuery();
+
+            //Get the employeeGrid's columns and if columnNames contains the columnName, update the employee in the database.
+            EmployeesGrid.Columns.ToList().ForEach(column =>
+            {
+                string employeeColumnName = column.Header.ToString().ToLower().Replace(' ', '_');
+                if (employeeColumnName == columnName)
+                {
+                    updateQuery = $"UPDATE employees SET {columnName} = @new_value WHERE employee_id = @employee_id";
+                    updateCommand = new(updateQuery, connection);
+                    updateCommand.Parameters.AddWithValue("@new_value", newValue);
+                    updateCommand.Parameters.AddWithValue("@employee_id", administrativeEmployeeId);
+
+                    rowsAffected += updateCommand.ExecuteNonQuery();
+                }
+            });
+
+            rowsAffected += updateCommand.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                // Refresh the employees grid with the updated data.
+                RefreshEmployeesGrid();
+            }
+        }
+
+        // Cell edit event handler for the StudentsGrid.
+        private void StudentsGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            // Get the row and column of the cell that was edited.
+            int rowIndex = e.Row.GetIndex();
+            int columnIndex = e.Column.DisplayIndex;
+
+            // Get the student ID of the student that was edited.
+            int studentId = (int)((DataRowView)e.Row.Item).Row.ItemArray[0];
+
+            // Get the new value of the cell that was edited.
+            string newValue = ((TextBox)e.EditingElement).Text;
+
+            // Get the column name of the cell that was edited.
+            string columnName = ((DataGridTextColumn)e.Column).Header.ToString().ToLower().Replace(' ', '_');
+
+            // Update the student in the database.
+            string updateQuery = $"UPDATE students SET {columnName} = @new_value WHERE student_id = @student_id";
+            MySqlCommand updateCommand = new(updateQuery, connection);
+            updateCommand.Parameters.AddWithValue("@new_value", newValue);
+            updateCommand.Parameters.AddWithValue("@student_id", studentId);
+
+            int rowsAffected = updateCommand.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                // Refresh the students grid with the updated data.
+                RefreshStudentsGrid();
+            }
+        }
+
+        // Cell edit event handler for the ParentsGrid.
+        private void ParentsGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            // Get the row and column of the cell that was edited.
+            int rowIndex = e.Row.GetIndex();
+            int columnIndex = e.Column.DisplayIndex;
+
+            // Get the parent ID of the parent that was edited.
+            int parentId = (int)((DataRowView)e.Row.Item).Row.ItemArray[0];
+
+            // Get the new value of the cell that was edited.
+            string newValue = ((TextBox)e.EditingElement).Text;
+
+            // Get the column name of the cell that was edited.
+            string columnName = ((DataGridTextColumn)e.Column).Header.ToString().ToLower().Replace(' ', '_');
+
+            // Update the parent in the database.
+            string updateQuery = $"UPDATE parents SET {columnName} = @new_value WHERE parent_id = @parent_id";
+            MySqlCommand updateCommand = new(updateQuery, connection);
+            updateCommand.Parameters.AddWithValue("@new_value", newValue);
+            updateCommand.Parameters.AddWithValue("@parent_id", parentId);
+
+            int rowsAffected = updateCommand.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                // Refresh the parents grid with the updated data.
+                RefreshParentsGrid();
+            }
+        }
+
+        // Cell edit event handler for the CoursesGrid.
+        private void CoursesGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            // Get the row and column of the cell that was edited.
+            int rowIndex = e.Row.GetIndex();
+            int columnIndex = e.Column.DisplayIndex;
+
+            // Get the course ID of the course that was edited.
+            int courseId = (int)((DataRowView)e.Row.Item).Row.ItemArray[0];
+
+            // Get the new value of the cell that was edited.
+            string newValue = ((TextBox)e.EditingElement).Text;
+
+            // Get the column name of the cell that was edited.
+            string columnName = ((DataGridTextColumn)e.Column).Header.ToString().ToLower().Replace(' ', '_');
+
+            // Update the course in the database.
+            string updateQuery = $"UPDATE courses SET {columnName} = @new_value WHERE course_id = @course_id";
+            MySqlCommand updateCommand = new(updateQuery, connection);
+            updateCommand.Parameters.AddWithValue("@new_value", newValue);
+            updateCommand.Parameters.AddWithValue("@course_id", courseId);
+
+            int rowsAffected = updateCommand.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                // Refresh the courses grid with the updated data.
+                RefreshCoursesGrid();
+            }
+        }
+
+        // Cell edit event handler for the ItemsGrid.
+        private void ItemsGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            // Get the row and column of the cell that was edited.
+            int rowIndex = e.Row.GetIndex();
+            int columnIndex = e.Column.DisplayIndex;
+
+            // Get the item ID of the item that was edited.
+            int itemId = (int)((DataRowView)e.Row.Item).Row.ItemArray[0];
+
+            // Get the new value of the cell that was edited.
+            string newValue = ((TextBox)e.EditingElement).Text;
+
+            // Get the column name of the cell that was edited.
+            string columnName = ((DataGridTextColumn)e.Column).Header.ToString().ToLower().Replace(' ', '_');
+
+            // Update the item in the database.
+            string updateQuery = $"UPDATE items SET {columnName} = @new_value WHERE item_id = @item_id";
+            MySqlCommand updateCommand = new(updateQuery, connection);
+            updateCommand.Parameters.AddWithValue("@new_value", newValue);
+            updateCommand.Parameters.AddWithValue("@item_id", itemId);
+
+            int rowsAffected = updateCommand.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                // Refresh the items grid with the updated data.
+                RefreshItemsGrid();
+            }
+        }
+
+        // Cell edit event handler for the IncomesGrid.
+        private void IncomesGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            // Get the row and column of the cell that was edited.
+            int rowIndex = e.Row.GetIndex();
+            int columnIndex = e.Column.DisplayIndex;
+
+            // Get the income ID of the income that was edited.
+            int incomeId = (int)((DataRowView)e.Row.Item).Row.ItemArray[0];
+
+            // Get the new value of the cell that was edited.
+            string newValue = ((TextBox)e.EditingElement).Text;
+
+            // Get the column name of the cell that was edited.
+            string columnName = ((DataGridTextColumn)e.Column).Header.ToString().ToLower().Replace(' ', '_');
+
+            // Update the income in the database.
+            string updateQuery = $"UPDATE incomes SET {columnName} = @new_value WHERE income_id = @income_id";
+            MySqlCommand updateCommand = new(updateQuery, connection);
+            updateCommand.Parameters.AddWithValue("@new_value", newValue);
+            updateCommand.Parameters.AddWithValue("@income_id", incomeId);
+
+            int rowsAffected = updateCommand.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                // Refresh the incomes grid with the updated data.
+                RefreshIncomesGrid();
+            }
+        }
+
+        // Cell edit event handler for the ExpensesGrid.
+        private void ExpensesGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            // Get the row and column of the cell that was edited.
+            int rowIndex = e.Row.GetIndex();
+            int columnIndex = e.Column.DisplayIndex;
+
+            // Get the expense ID of the expense that was edited.
+            int expenseId = (int)((DataRowView)e.Row.Item).Row.ItemArray[0];
+
+            // Get the new value of the cell that was edited.
+            string newValue = ((TextBox)e.EditingElement).Text;
+
+            // Get the column name of the cell that was edited.
+            string columnName = ((DataGridTextColumn)e.Column).Header.ToString().ToLower().Replace(' ', '_');
+
+            // Update the expense in the database.
+            string updateQuery = $"UPDATE expenses SET {columnName} = @new_value WHERE expense_id = @expense_id";
+            MySqlCommand updateCommand = new(updateQuery, connection);
+            updateCommand.Parameters.AddWithValue("@new_value", newValue);
+            updateCommand.Parameters.AddWithValue("@expense_id", expenseId);
+
+            int rowsAffected = updateCommand.ExecuteNonQuery();
+
+            if (rowsAffected > 0)
+            {
+                // Refresh the expenses grid with the updated data.
+                RefreshExpensesGrid();
             }
         }
 
@@ -664,7 +999,6 @@ namespace WpfApp1
             TeacherHireDateFilter.Text = "";
             TeacherSalaryFilter.Text = "";
             TeacherIsFullTimeFilter.IsChecked = false;
-            TeacherAvailabilityFilter.Text = "";
 
             RefreshTeachersGrid();
         }
@@ -705,10 +1039,6 @@ namespace WpfApp1
             if (TeacherIsFullTimeFilter.IsChecked == true)
             {
                 query += $"is_full_time = 1 AND ";
-            }
-            if (TeacherAvailabilityFilter.Text != "")
-            {
-                query += $"availability LIKE '%{TeacherAvailabilityFilter.Text}%' AND ";
             }
 
             query = query.Remove(query.Length - 5);
@@ -1175,6 +1505,15 @@ namespace WpfApp1
             CapitalizeHeaders(expensesDataTable);
 
             ExpensesGrid.ItemsSource = expensesDataTable.DefaultView;
+        }
+
+        private void CourseScheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleSelectorDialog scheduleSelectorDialog = new();
+            bool? result = scheduleSelectorDialog.ShowDialog();
+
+            if (result == true)
+                CourseScheduleFilter.Text = scheduleSelectorDialog.Schedule;
         }
     }
 }
