@@ -186,9 +186,8 @@ namespace WpfApp1
 
                 if (rowsAffected > 0)
                 {
-                    // Refresh the employees and teachers grid with the updated data.
-                    RefreshEmployeesGrid();
-                    RefreshTeachersGrid();
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
                 }
             }
         }
@@ -238,9 +237,8 @@ namespace WpfApp1
 
                 if (rowsAffected > 0)
                 {
-                    // Refresh the employees and janitors grid with the updated data.
-                    RefreshEmployeesGrid();
-                    RefreshJanitorsGrid();
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
                 }
             }
         }
@@ -292,9 +290,8 @@ namespace WpfApp1
 
                 if (rowsAffected > 0)
                 {
-                    // Refresh the employees and administrative employees grid with the updated data.
-                    RefreshEmployeesGrid();
-                    RefreshAdministrativeEmployeesGrid();
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
                 }
             }
         }
@@ -330,8 +327,7 @@ namespace WpfApp1
 
                 if (rowsAffected > 0)
                 {
-                    // Refresh the students grid with the updated data.
-                    RefreshStudentsGrid();
+                    // Refresh all the grids with the updated data.
                 }
             }
         }
@@ -362,8 +358,8 @@ namespace WpfApp1
 
                 if (rowsAffected > 0)
                 {
-                    // Refresh the parents grid with the updated data.
-                    RefreshParentsGrid();
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
                 }
             }
         }
@@ -392,10 +388,8 @@ namespace WpfApp1
 
                 if (rowsAffected > 0)
                 {
-                    // Refresh the courses, students, teachers grid with the updated data.
-                    RefreshCoursesGrid();
-                    RefreshStudentsGrid();
-                    RefreshTeachersGrid();
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
                 }
             }
         }
@@ -433,8 +427,8 @@ namespace WpfApp1
 
                 if (rowsAffected > 0)
                 {
-                    // Refresh the items grid with the updated data.
-                    RefreshItemsGrid();
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
                 }
             }
         }
@@ -462,8 +456,8 @@ namespace WpfApp1
                 int rowsAffected = insertCommand.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {
-                    // Refresh the incomes grid with the updated data.
-                    RefreshIncomesGrid();
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
                 }
             }
         }
@@ -491,8 +485,8 @@ namespace WpfApp1
                 int rowsAffected = insertCommand.ExecuteNonQuery();
                 if (rowsAffected > 0)
                 {
-                    // Refresh the expenses grid with the updated data.
-                    RefreshExpensesGrid();
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
                 }
             }
         }
@@ -540,8 +534,8 @@ namespace WpfApp1
 
             if (rowsAffected > 0)
             {
-                // Refresh the employees grid with the updated data.
-                RefreshEmployeesGrid();
+                // Refresh all the grids with the updated data.
+                RefreshAllGrids();
             }
         }
 
@@ -588,8 +582,8 @@ namespace WpfApp1
 
             if (rowsAffected > 0)
             {
-                // Refresh the employees grid with the updated data.
-                RefreshEmployeesGrid();
+                // Refresh all the grids with the updated data.
+                RefreshAllGrids();
             }
         }
 
@@ -636,8 +630,8 @@ namespace WpfApp1
 
             if (rowsAffected > 0)
             {
-                // Refresh the employees grid with the updated data.
-                RefreshEmployeesGrid();
+                // Refresh all the grids with the updated data.
+                RefreshAllGrids();
             }
         }
 
@@ -667,8 +661,8 @@ namespace WpfApp1
 
             if (rowsAffected > 0)
             {
-                // Refresh the students grid with the updated data.
-                RefreshStudentsGrid();
+                // Refresh all the grids with the updated data.
+                RefreshAllGrids();
             }
         }
 
@@ -698,8 +692,8 @@ namespace WpfApp1
 
             if (rowsAffected > 0)
             {
-                // Refresh the parents grid with the updated data.
-                RefreshParentsGrid();
+                // Refresh all the grids with the updated data.
+                RefreshAllGrids();
             }
         }
 
@@ -729,8 +723,8 @@ namespace WpfApp1
 
             if (rowsAffected > 0)
             {
-                // Refresh the courses grid with the updated data.
-                RefreshCoursesGrid();
+                // Refresh all the grids with the updated data.
+                RefreshAllGrids();
             }
         }
 
@@ -760,8 +754,8 @@ namespace WpfApp1
 
             if (rowsAffected > 0)
             {
-                // Refresh the items grid with the updated data.
-                RefreshItemsGrid();
+                // Refresh all the grids with the updated data.
+                RefreshAllGrids();
             }
         }
 
@@ -791,8 +785,8 @@ namespace WpfApp1
 
             if (rowsAffected > 0)
             {
-                // Refresh the incomes grid with the updated data.
-                RefreshIncomesGrid();
+                // Refresh all the grids with the updated data.
+                RefreshAllGrids();
             }
         }
 
@@ -822,8 +816,8 @@ namespace WpfApp1
 
             if (rowsAffected > 0)
             {
-                // Refresh the expenses grid with the updated data.
-                RefreshExpensesGrid();
+                // Refresh all the grids with the updated data.
+                RefreshAllGrids();
             }
         }
 
@@ -935,6 +929,21 @@ namespace WpfApp1
             CapitalizeHeaders(expensesDataTable);
 
             ExpensesGrid.ItemsSource = expensesDataTable.DefaultView;
+        }
+
+        // Method to refresh all the grids with updated data from the database.
+        private void RefreshAllGrids()
+        {
+            RefreshEmployeesGrid();
+            RefreshTeachersGrid();
+            RefreshJanitorsGrid();
+            RefreshAdministrativeEmployeesGrid();
+            RefreshStudentsGrid();
+            RefreshParentsGrid();
+            RefreshCoursesGrid();
+            RefreshItemsGrid();
+            RefreshIncomesGrid();
+            RefreshExpensesGrid();
         }
 
         // Method to capitalize the headers of a DataTable.
@@ -1545,7 +1554,255 @@ namespace WpfApp1
                 CourseScheduleFilter.Text = scheduleSelectorDialog.Schedule;
         }
 
-        private void ConfigureDatabase(string databaseName)
+        // Method to delete a row from the TeachersGrid.
+        private void TeachersGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                // Get the teacher ID of the teacher that was deleted.
+                int teacherId = (int)((DataRowView)TeachersGrid.SelectedItem).Row.ItemArray[0];
+
+                // Delete the teacher from the database.
+                string teacherDeleteQuery = $"DELETE FROM teachers WHERE teacher_id = @teacher_id";
+                MySqlCommand deleteCommand = new(teacherDeleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@teacher_id", teacherId);
+
+                int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                // Delete the employee from the database.
+                string employeeDeleteQuery = $"DELETE FROM employees WHERE employee_id = @employee_id";
+                MySqlCommand deleteEmployeeCommand = new(employeeDeleteQuery, connection);
+                deleteEmployeeCommand.Parameters.AddWithValue("@employee_id", teacherId);
+
+                rowsAffected += deleteEmployeeCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Refresh all the grids with the updated data.
+                }
+            }
+        }
+
+        // Method to delete a row from the JanitorsGrid.
+        private void JanitorsGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                // Get the janitor ID of the janitor that was deleted.
+                int janitorId = (int)((DataRowView)JanitorsGrid.SelectedItem).Row.ItemArray[0];
+
+                // Delete the janitor from the database.
+                string janitorDeleteQuery = $"DELETE FROM janitors WHERE janitor_id = @janitor_id";
+                MySqlCommand deleteCommand = new(janitorDeleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@janitor_id", janitorId);
+
+                int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                // Delete the employee from the database.
+                string employeeDeleteQuery = $"DELETE FROM employees WHERE employee_id = @employee_id";
+                MySqlCommand deleteEmployeeCommand = new(employeeDeleteQuery, connection);
+                deleteEmployeeCommand.Parameters.AddWithValue("@employee_id", janitorId);
+
+                rowsAffected += deleteEmployeeCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
+                }
+            }
+        }
+
+        // Method to delete a row from the AdministrativeEmployeesGrid.
+        private void AdministrativeEmployeesGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                // Get the administrative employee ID of the administrative employee that was deleted.
+                int administrativeEmployeeId = (int)((DataRowView)AdministrativeEmployeesGrid.SelectedItem).Row.ItemArray[0];
+
+                // Delete the administrative employee from the database.
+                string administrativeEmployeeDeleteQuery = $"DELETE FROM administrative_employees WHERE administrative_employee_id = @administrative_employee_id";
+                MySqlCommand deleteCommand = new(administrativeEmployeeDeleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@administrative_employee_id", administrativeEmployeeId);
+
+                int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                // Delete the employee from the database.
+                string employeeDeleteQuery = $"DELETE FROM employees WHERE employee_id = @employee_id";
+                MySqlCommand deleteEmployeeCommand = new(employeeDeleteQuery, connection);
+                deleteEmployeeCommand.Parameters.AddWithValue("@employee_id", administrativeEmployeeId);
+
+                rowsAffected += deleteEmployeeCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
+                }
+            }
+        }
+
+        // Method to delete a row from the StudentsGrid.
+        private void StudentsGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                // Get the student ID of the student that was deleted.
+                int studentId = (int)((DataRowView)StudentsGrid.SelectedItem).Row.ItemArray[0];
+
+                // Delete the student from the database.
+                string studentDeleteQuery = $"DELETE FROM students WHERE student_id = @student_id";
+                MySqlCommand deleteCommand = new(studentDeleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@student_id", studentId);
+
+                int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                // Delete the parent from the database.
+                string parentDeleteQuery = $"DELETE FROM parents WHERE student_id = @student_id";
+                MySqlCommand deleteParentCommand = new(parentDeleteQuery, connection);
+                deleteParentCommand.Parameters.AddWithValue("@student_id", studentId);
+
+                rowsAffected += deleteParentCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
+                }
+            }
+        }
+
+        // Method to delete a row from the ParentsGrid.
+        private void ParentsGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                // Get the parent ID of the parent that was deleted.
+                int parentId = (int)((DataRowView)ParentsGrid.SelectedItem).Row.ItemArray[0];
+
+                // Delete the parent from the database.
+                string parentDeleteQuery = $"DELETE FROM parents WHERE parent_id = @parent_id";
+                MySqlCommand deleteCommand = new(parentDeleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@parent_id", parentId);
+
+                int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
+                }
+            }
+        }
+
+        // Method to delete a row from the CoursesGrid.
+        private void CoursesGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                // Get the course ID of the course that was deleted.
+                int courseId = (int)((DataRowView)CoursesGrid.SelectedItem).Row.ItemArray[0];
+
+                // Delete the course from the database.
+                string courseDeleteQuery = $"DELETE FROM courses WHERE course_id = @course_id";
+                MySqlCommand deleteCommand = new(courseDeleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@course_id", courseId);
+
+                int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                // Delete the enrollment from the database.
+                string enrollmentDeleteQuery = $"DELETE FROM enrollments WHERE course_id = @course_id";
+                MySqlCommand deleteEnrollmentCommand = new(enrollmentDeleteQuery, connection);
+                deleteEnrollmentCommand.Parameters.AddWithValue("@course_id", courseId);
+
+                rowsAffected += deleteEnrollmentCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
+                }
+            }
+        }
+
+        // Method to delete a row from the ItemsGrid.
+        private void ItemsGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                // Get the item ID of the item that was deleted.
+                int itemId = (int)((DataRowView)ItemsGrid.SelectedItem).Row.ItemArray[0];
+
+                // Delete the item from the database.
+                string itemDeleteQuery = $"DELETE FROM items WHERE item_id = @item_id";
+                MySqlCommand deleteCommand = new(itemDeleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@item_id", itemId);
+
+                int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                // Delete the course_item from the database.
+                string courseItemDeleteQuery = $"DELETE FROM course_item WHERE item_id = @item_id";
+                MySqlCommand deleteCourseItemCommand = new(courseItemDeleteQuery, connection);
+                deleteCourseItemCommand.Parameters.AddWithValue("@item_id", itemId);
+
+                rowsAffected += deleteCourseItemCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
+                }
+            }
+        }
+
+        // Method to delete a row from the IncomesGrid.
+        private void IncomesGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                // Get the income ID of the income that was deleted.
+                int incomeId = (int)((DataRowView)IncomesGrid.SelectedItem).Row.ItemArray[0];
+
+                // Delete the income from the database.
+                string incomeDeleteQuery = $"DELETE FROM incomes WHERE income_id = @income_id";
+                MySqlCommand deleteCommand = new(incomeDeleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@income_id", incomeId);
+
+                int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
+                }
+            }
+        }
+
+        // Method to delete a row from the ExpensesGrid.
+        private void ExpensesGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                // Get the expense ID of the expense that was deleted.
+                int expenseId = (int)((DataRowView)ExpensesGrid.SelectedItem).Row.ItemArray[0];
+
+                // Delete the expense from the database.
+                string expenseDeleteQuery = $"DELETE FROM expenses WHERE expense_id = @expense_id";
+                MySqlCommand deleteCommand = new(expenseDeleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@expense_id", expenseId);
+
+                int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
+                }
+            }
+        }
+
+        private static void ConfigureDatabase(string databaseName)
         {
             // Create the database and tables if it doesn't exist.
             string createDatabaseQuery = $"CREATE DATABASE IF NOT EXISTS {databaseName}";

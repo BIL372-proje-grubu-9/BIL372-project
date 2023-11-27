@@ -11,7 +11,7 @@
             <TabItem Header="Employees">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Employees" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
-                    <DataGrid d:ItemsSource="{Binding}" Name="EmployeesGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="EmployeesGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True" CanUserDeleteRows="False"/>
                     <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
                     <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
                     <TextBox Name="EmployeeFirstNameFilter" HorizontalAlignment="Left" Height="23" Margin="95,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75"/>
@@ -36,7 +36,7 @@
             <TabItem Header="Teachers">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Teachers" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
-                    <DataGrid d:ItemsSource="{Binding}" Name="TeachersGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="TeachersGrid_CellEditEnding"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="TeachersGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="TeachersGrid_CellEditEnding" PreviewKeyDown="TeachersGrid_PreviewKeyDown"/>
                     <Button Content="Add Teacher" Name="AddTeacher" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddTeacherButton_Click"/>
                     <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
                     <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
