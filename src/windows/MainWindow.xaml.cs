@@ -126,9 +126,9 @@ namespace WpfApp1
                     ConfigureDatabase(dbName);
                     connection.ChangeDatabase(dbName);
                 }
-                catch
+                catch (MySqlException ex)
                 {
-                    MessageBox.Show("Invalid password.");
+                    MessageBox.Show(ex.Message);
                     Environment.Exit(0);
                 }
             }
@@ -1943,7 +1943,7 @@ namespace WpfApp1
             string createIncomesTableQuery = "CREATE TABLE IF NOT EXISTS incomes (" +
                 "income_id int auto_increment primary key," +
                 "income_type varchar(50)," +
-                "income_amount decimal(10,5)," +
+                "income_amount float," +
                 "income_date date," +
                 "income_description varchar(255)" +
                 ")";
@@ -1954,7 +1954,7 @@ namespace WpfApp1
             string createExpensesTableQuery = "CREATE TABLE IF NOT EXISTS expenses (" +
                 "expense_id int auto_increment primary key," +
                 "expense_type varchar(50)," +
-                "expense_amount decimal(10,5)," +
+                "expense_amount float," +
                 "expense_date date," +
                 "expense_description varchar(255)" +
                 ")";
