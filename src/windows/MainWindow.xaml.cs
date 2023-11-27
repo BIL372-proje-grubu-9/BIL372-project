@@ -26,7 +26,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const string dbName = "project";
+        private const string dbName = "projectgroup9";
         private const string employeesQuery = "SELECT * FROM employees";
         private const string teachersQuery = "SELECT teachers.*, GROUP_CONCAT(courses.course_name SEPARATOR ', ') AS courses_taught, GROUP_CONCAT(courses.schedule SEPARATOR ', ') AS schedule " +
             "FROM teachers " +
