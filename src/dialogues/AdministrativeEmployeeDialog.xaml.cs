@@ -84,7 +84,7 @@ namespace WpfApp1
         {
             if (IsInputValid() == false)
             {
-                return false;
+                return;
             }
 
 			SaveInputValues();
@@ -95,12 +95,12 @@ namespace WpfApp1
 
         private bool IsParsableToInt(string text)
         {
-			!int.TryParse(text, out _)
+            return !int.TryParse(text, out _);
 		}
 
         private void NumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (IsParsableToInt(e.text) == false)
+            if (IsParsableToInt(e.Text) == false)
             {
                 // Cancel the input
                 e.Handled = true;
