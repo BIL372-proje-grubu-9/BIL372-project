@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,6 +26,7 @@ namespace WpfApp1
         public int ParentStudentId { get; set; }
         public string ParentEmail { get; set; }
         public string ParentPhone { get; set; }
+
         public ParentDialog()
         {
             InitializeComponent();
@@ -36,59 +38,93 @@ namespace WpfApp1
             ParentPhone = string.Empty;
         }
 
-        private void SaveButtonClicked(object sender, RoutedEventArgs e)
+		// Add more validation if needed
+		private bool IsInputValid()
+		{
+			if (string.IsNullOrWhiteSpace(ParentFirstNameTextBox.Text))
+			{
+				MessageBox.Show("Please enter the parent's first name.");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(ParentLastNameTextBox.Text))
+			{
+				MessageBox.Show("Please enter the parent's last name.");
+				return false;
+			}
+
+			if (string.IsNullOrWhiteSpace(ParentStudentIdComboBox.Text))
+			{
+				MessageBox.Show("Please enter the parent's student id.");
+				return false;
+			}
+
+            return true;
+		}
+
+        private void SaveInputValues()
         {
-            // Validate input (you can add more validation if needed).
-            if (string.IsNullOrWhiteSpace(ParentFirstNameTextBox.Text))
-            {
-                MessageBox.Show("Please enter the parent's first name.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(ParentLastNameTextBox.Text))
-            {
-                MessageBox.Show("Please enter the parent's last name.");
-                return;
-            }
-            if (string.IsNullOrWhiteSpace(ParentStudentIdComboBox.Text))
-            {
-                MessageBox.Show("Please enter the parent's student id.");
-                return;
-            }
+			ParentFirstName = ParentFirstNameTextBox.Text;
+			ParentLastName = ParentLastNameTextBox.Text;
+			ParentStudentId = int.Parse(ParentStudentIdComboBox.Text.ToLower().Split("id: ")[1].Replace(")", ""));
+			ParentEmail = ParentEmailTextBox.Text;
+			ParentPhone = ParentPhoneTextBox.Text;
+		}
 
-            // Set the ParentFirstName and ParentLastName property with the entered name.
-            ParentFirstName = ParentFirstNameTextBox.Text;
-            ParentLastName = ParentLastNameTextBox.Text;
-            ParentStudentId = int.Parse(ParentStudentIdComboBox.Text.ToLower().Split("id: ")[1].Replace(")", ""));
-            ParentEmail = ParentEmailTextBox.Text;
-            ParentPhone = ParentPhoneTextBox.Text;
+		private void SaveButtonClicked(object sender, RoutedEventArgs e)
+        {
+			if (IsInputValid() == false)
+			{
+				return;
+			}
 
-            // Close the dialog box and return to the parent window.
-            DialogResult = true;
+			SaveInputValues();
+
+			// Close dialog box with OK result.
+			DialogResult = true;
         }
 
-        private void PopulateStudentIdComboBox()
-        {
-            // Populate the StudentId with the student ids.
-            string query = "SELECT first_name, last_name, student_id FROM students";
+		private MySqlDataReader GetReader()
+		{
+			// Populate the StudentId with the student ids.
+			string query = "SELECT first_name, last_name, student_id FROM students";
 
-            // Create a connection to the database.
-            MySqlCommand cmd = new(query, MainWindow.connection);
-            cmd.ExecuteNonQuery();
-            MySqlDataReader reader = cmd.ExecuteReader();
+			// Create a connection to the database.
+			MySqlCommand cmd = new(query, MainWindow.connection);
+			cmd.ExecuteNonQuery();
+
+			return cmd.ExecuteReader();
+		}
+
+		private void AddToParentStudentIdComboBox(Object x1, Object x2, Object x3)
+		{
+			ParentStudentIdComboBox.Items.Add(x1 + " " + x2 + " (id: " + x3 + ")");
+		}
+
+		private void PopulateStudentIdComboBox()
+        {
+            MySqlDataReader reader = GetReader();
+
             while (reader.Read())
             {
-                ParentStudentIdComboBox.Items.Add(reader[0] + " " + reader[1] + " (id: " + reader[2] + ")");
+				AddToParentStudentIdComboBox(reader[0], reader[1], reader[2]);
             }
+
             reader.Close();
         }
 
-        private void NumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
+		private bool IsParsableToInt(string text)
+		{
+			return !int.TryParse(text, out _);
+		}
+
+		private void NumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            // Use this event handler to allow only numeric input.
-            if (!int.TryParse(e.Text, out _))
-            {
-                e.Handled = true; // Cancel the input if it's not a valid integer.
-            }
-        }
+			if (IsParsableToInt(e.Text) == false)
+			{
+				// Cancel the input
+				e.Handled = true;
+			}
+		}
     }
 }
