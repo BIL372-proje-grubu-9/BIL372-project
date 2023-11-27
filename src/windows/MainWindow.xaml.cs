@@ -937,7 +937,7 @@ namespace WpfApp1
             ExpensesGrid.ItemsSource = expensesDataTable.DefaultView;
         }
 
-        // Method to refresh the EmployeesGrid with updated data from the database.
+        // Method to refresh the DeletedEmployeesGrid with updated data from the database.
         private void RefreshDeletedEmployeesGrid()
         {
             MySqlCommand deletedEmployeesCmd = new(deletedEmployeesQuery, connection);
@@ -947,6 +947,7 @@ namespace WpfApp1
 
             DeletedEmployeesGrid.ItemsSource = deletedEmployeesDataTable.DefaultView;
         }
+
 
         // Method to refresh all the grids with updated data from the database.
         private void RefreshAllGrids()
@@ -1597,7 +1598,7 @@ namespace WpfApp1
                 if (rowsAffected > 0)
                 {
                     // Refresh all the grids with the updated data.
-
+                    RefreshAllGrids();
                 }
             }
         }
@@ -1995,7 +1996,7 @@ namespace WpfApp1
             MySqlCommand createDeletedEmployeesTableCommand = new(createDeletedEmployeesTableQuery, connection);
             createDeletedEmployeesTableCommand.ExecuteNonQuery();
 
-            // Create the employees table if it doesn't exist.
+            // Create the deleted_employees_grid table if it doesn't exist.
             string createtr_EmployeeRemovedQuery =
                 "CREATE TRIGGER IF NOT EXISTS tr_EmployeeRemoved " +
                 "BEFORE DELETE ON employees " +
