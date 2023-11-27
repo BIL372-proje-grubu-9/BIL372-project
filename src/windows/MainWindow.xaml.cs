@@ -16,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.src.dialogues;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WpfApp1
 {
@@ -24,6 +26,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const string dbName = "project";
         private const string employeesQuery = "SELECT * FROM employees";
         private const string teachersQuery = "SELECT teachers.*, GROUP_CONCAT(courses.course_name SEPARATOR ', ') AS courses_taught, GROUP_CONCAT(courses.schedule SEPARATOR ', ') AS schedule " +
             "FROM teachers " +
@@ -46,12 +49,12 @@ namespace WpfApp1
             "GROUP BY items.item_id";
         private const string incomesQuery = "SELECT * FROM incomes";
         private const string expensesQuery = "SELECT * FROM expenses";
-        private const string connectionString = "Server=localhost;Database=project;PASSWORD=1234;UID=root;";
-        public static readonly MySqlConnection connection = new(connectionString);
+        private string connectionString = "";
+        public static MySqlConnection? connection;
         public MainWindow()
         {
             InitializeComponent();
-            connection.Open();
+            Setup();
 
             MySqlCommand employeesCmd = new(employeesQuery, connection);
             MySqlCommand teachersCmd = new(teachersQuery, connection);
@@ -107,6 +110,32 @@ namespace WpfApp1
             ItemsGrid.ItemsSource = itemsDataTable.DefaultView;
             IncomesGrid.ItemsSource = incomesDataTable.DefaultView;
             ExpensesGrid.ItemsSource = expensesDataTable.DefaultView;
+        }
+
+        private void Setup()
+        {
+            PasswordDialog passwordDialog = new();
+            if (passwordDialog.ShowDialog() == true)
+            {
+                string password = passwordDialog.Password;
+                connectionString = $"Server=localhost;PASSWORD={password};UID=root;";
+                connection = new(connectionString);
+                try
+                {
+                    connection.Open();
+                    ConfigureDatabase(dbName);
+                    connection.ChangeDatabase(dbName);
+                }
+                catch
+                {
+                    MessageBox.Show("Invalid password.");
+                    Environment.Exit(0);
+                }
+            }
+            else
+            {
+                Environment.Exit(0);
+            }
         }
 
         private void AddTeacherButton_Click(object sender, RoutedEventArgs e)
@@ -1514,6 +1543,166 @@ namespace WpfApp1
 
             if (result == true)
                 CourseScheduleFilter.Text = scheduleSelectorDialog.Schedule;
+        }
+
+        private void ConfigureDatabase(string databaseName)
+        {
+            // Create the database and tables if it doesn't exist.
+            string createDatabaseQuery = $"CREATE DATABASE IF NOT EXISTS {databaseName}";
+            MySqlCommand createDatabaseCommand = new(createDatabaseQuery, connection);
+            createDatabaseCommand.ExecuteNonQuery();
+
+            // Select the database.
+            string selectDatabaseQuery = $"USE {databaseName}";
+            MySqlCommand selectDatabaseCommand = new(selectDatabaseQuery, connection);
+            selectDatabaseCommand.ExecuteNonQuery();
+
+            // Create the employees table if it doesn't exist.
+            string createEmployeesTableQuery = "CREATE TABLE IF NOT EXISTS employees (" +
+                "employee_id int auto_increment primary key," +
+                "first_name varchar(50)," +
+                "last_name varchar(50)," +
+                "email varchar(100)," +
+                "phone varchar(20)," +
+                "hire_date date," +
+                "salary int," +
+                "is_full_time boolean," +
+                "availability varchar(255)" +
+                ")";
+            MySqlCommand createEmployeesTableCommand = new(createEmployeesTableQuery, connection);
+            createEmployeesTableCommand.ExecuteNonQuery();
+
+            // Create the teachers table if it doesn't exist.
+            string createTeachersTableQuery = "CREATE TABLE IF NOT EXISTS teachers (" +
+                "teacher_id int auto_increment primary key," +
+                "first_name varchar(50)," +
+                "last_name varchar(50)," +
+                "email varchar(100)," +
+                "phone varchar(20)," +
+                "specialty varchar(50)," +
+                "foreign key (teacher_id) references Employees(employee_id) on delete cascade on update cascade" +
+                ")";
+            MySqlCommand createTeachersTableCommand = new(createTeachersTableQuery, connection);
+            createTeachersTableCommand.ExecuteNonQuery();
+
+            // Create the janitors table if it doesn't exist.
+            string createJanitorsTableQuery = "CREATE TABLE IF NOT EXISTS janitors (" +
+                "janitor_id int auto_increment primary key," +
+                "first_name varchar(50)," +
+                "last_name varchar(50)," +
+                "email varchar(100)," +
+                "phone varchar(20)," +
+                "foreign key (janitor_id) references Employees(employee_id) on delete cascade on update cascade" +
+                ")";
+            MySqlCommand createJanitorsTableCommand = new(createJanitorsTableQuery, connection);
+            createJanitorsTableCommand.ExecuteNonQuery();
+
+            // Create the administrative employees table if it doesn't exist.
+            string createAdministrativeEmployeesTableQuery = "CREATE TABLE IF NOT EXISTS administrative_employees (" +
+                "administrative_employee_id int auto_increment primary key," +
+                "first_name varchar(50)," +
+                "last_name varchar(50)," +
+                "email varchar(100)," +
+                "phone varchar(20)," +
+                "department varchar(50)," +
+                "foreign key (administrative_employee_id) references Employees(employee_id) on delete cascade on update cascade" +
+                ")";
+            MySqlCommand createAdministrativeEmployeesTableCommand = new(createAdministrativeEmployeesTableQuery, connection);
+            createAdministrativeEmployeesTableCommand.ExecuteNonQuery();
+
+            // Create the students table if it doesn't exist.
+            string createStudentsTableQuery = "CREATE TABLE IF NOT EXISTS students (" +
+                "student_id int auto_increment primary key," +
+                "first_name varchar(50)," +
+                "last_name varchar(50)," +
+                "age int," +
+                "graduate boolean," +
+                "contact_email varchar(100)," +
+                "contact_phone varchar(20)," +
+                "availability varchar(255)" +
+                ")";
+            MySqlCommand createStudentsTableCommand = new(createStudentsTableQuery, connection);
+            createStudentsTableCommand.ExecuteNonQuery();
+
+            // Create the parents table if it doesn't exist.
+            string createParentsTableQuery = "CREATE TABLE IF NOT EXISTS parents (" +
+                "parent_id int auto_increment primary key," +
+                "first_name varchar(50)," +
+                "last_name varchar(50)," +
+                "student_id int," +
+                "contact_email varchar(100)," +
+                "contact_phone varchar(20)," +
+                "foreign key (student_id) references Students(student_id) on delete cascade on update cascade" +
+                ")";
+            MySqlCommand createParentsTableCommand = new(createParentsTableQuery, connection);
+            createParentsTableCommand.ExecuteNonQuery();
+
+            // Create the courses table if it doesn't exist.
+            string createCoursesTableQuery = "CREATE TABLE IF NOT EXISTS courses (" +
+                "course_id int auto_increment primary key," +
+                "course_name varchar(50)," +
+                "teacher_id int," +
+                "schedule varchar(255)," +
+                "status boolean," +
+                "foreign key (teacher_id) references Teachers(teacher_id) on delete cascade on update cascade" +
+                ")";
+            MySqlCommand createCoursesTableCommand = new(createCoursesTableQuery, connection);
+            createCoursesTableCommand.ExecuteNonQuery();
+
+            // Create the items table if it doesn't exist.
+            string createItemsTableQuery = "CREATE TABLE IF NOT EXISTS items (" +
+                "item_id int auto_increment primary key," +
+                "item_name varchar(50)," +
+                "quantity int," +
+                "item_description varchar(255)" +
+                ")";
+            MySqlCommand createItemsTableCommand = new(createItemsTableQuery, connection);
+            createItemsTableCommand.ExecuteNonQuery();
+
+            // Create the enrollments table if it doesn't exist.
+            string createEnrollmentsTableQuery = "CREATE TABLE IF NOT EXISTS enrollments (" +
+                "enrollment_id int auto_increment primary key," +
+                "student_id int," +
+                "course_id int," +
+                "foreign key (student_id) references Students(student_id) on delete cascade on update cascade," +
+                "foreign key (course_id) references Courses(course_id) on delete cascade on update cascade" +
+                ")";
+            MySqlCommand createEnrollmentsTableCommand = new(createEnrollmentsTableQuery, connection);
+            createEnrollmentsTableCommand.ExecuteNonQuery();
+
+            // Create the course_item table if it doesn't exist.
+            string createCourseItemTableQuery = "CREATE TABLE IF NOT EXISTS course_item (" +
+                "course_item_id int auto_increment primary key," +
+                "course_id int," +
+                "item_id int," +
+                "foreign key (course_id) references Courses(course_id) on delete cascade on update cascade," +
+                "foreign key (item_id) references Items(item_id) on delete cascade on update cascade" +
+                ")";
+
+            MySqlCommand createCourseItemTableCommand = new(createCourseItemTableQuery, connection);
+            createCourseItemTableCommand.ExecuteNonQuery();
+
+            // Create the incomes table if it doesn't exist.
+            string createIncomesTableQuery = "CREATE TABLE IF NOT EXISTS incomes (" +
+                "income_id int auto_increment primary key," +
+                "income_type varchar(50)," +
+                "income_amount decimal(10,5)," +
+                "income_date date," +
+                "income_description varchar(255)" +
+                ")";
+            MySqlCommand createIncomesTableCommand = new(createIncomesTableQuery, connection);
+            createIncomesTableCommand.ExecuteNonQuery();
+
+            // Create the expenses table if it doesn't exist.
+            string createExpensesTableQuery = "CREATE TABLE IF NOT EXISTS expenses (" +
+                "expense_id int auto_increment primary key," +
+                "expense_type varchar(50)," +
+                "expense_amount decimal(10,5)," +
+                "expense_date date," +
+                "expense_description varchar(255)" +
+                ")";
+            MySqlCommand createExpensesTableCommand = new(createExpensesTableQuery, connection);
+            createExpensesTableCommand.ExecuteNonQuery();
         }
     }
 }
