@@ -49,6 +49,7 @@ namespace WpfApp1
             "GROUP BY items.item_id";
         private const string incomesQuery = "SELECT * FROM incomes";
         private const string expensesQuery = "SELECT * FROM expenses";
+        private const string deletedEmployeesQuery = "SELECT * FROM deletedemployees";
         private string connectionString = "";
         public static MySqlConnection? connection;
         public MainWindow()
@@ -66,6 +67,7 @@ namespace WpfApp1
             MySqlCommand itemsCmd = new(itemsQuery, connection);
             MySqlCommand incomesCmd = new(incomesQuery, connection);
             MySqlCommand expensesCmd = new(expensesQuery, connection);
+            MySqlCommand deletedEmployeesCmd = new(deletedEmployeesQuery, connection);
 
             DataTable employeesDataTable = new();
             DataTable teachersDataTable = new();
@@ -77,6 +79,7 @@ namespace WpfApp1
             DataTable itemsDataTable = new();
             DataTable incomesDataTable = new();
             DataTable expensesDataTable = new();
+            DataTable deletedEmployeesDataTable = new();
 
             employeesDataTable.Load(employeesCmd.ExecuteReader());
             teachersDataTable.Load(teachersCmd.ExecuteReader());
@@ -88,6 +91,7 @@ namespace WpfApp1
             itemsDataTable.Load(itemsCmd.ExecuteReader());
             incomesDataTable.Load(incomesCmd.ExecuteReader());
             expensesDataTable.Load(expensesCmd.ExecuteReader());
+            deletedEmployeesDataTable.Load(deletedEmployeesCmd.ExecuteReader());
 
             CapitalizeHeaders(employeesDataTable);
             CapitalizeHeaders(teachersDataTable);
@@ -99,6 +103,7 @@ namespace WpfApp1
             CapitalizeHeaders(itemsDataTable);
             CapitalizeHeaders(incomesDataTable);
             CapitalizeHeaders(expensesDataTable);
+            CapitalizeHeaders(deletedEmployeesDataTable);
 
             EmployeesGrid.ItemsSource = employeesDataTable.DefaultView;
             TeachersGrid.ItemsSource = teachersDataTable.DefaultView;
@@ -110,6 +115,7 @@ namespace WpfApp1
             ItemsGrid.ItemsSource = itemsDataTable.DefaultView;
             IncomesGrid.ItemsSource = incomesDataTable.DefaultView;
             ExpensesGrid.ItemsSource = expensesDataTable.DefaultView;
+            DeletedEmployeesGrid.ItemsSource = deletedEmployeesDataTable.DefaultView;
         }
 
         private void Setup()
@@ -931,6 +937,17 @@ namespace WpfApp1
             ExpensesGrid.ItemsSource = expensesDataTable.DefaultView;
         }
 
+        // Method to refresh the EmployeesGrid with updated data from the database.
+        private void RefreshDeletedEmployeesGrid()
+        {
+            MySqlCommand deletedEmployeesCmd = new(deletedEmployeesQuery, connection);
+            DataTable deletedEmployeesDataTable = new();
+            deletedEmployeesDataTable.Load(deletedEmployeesCmd.ExecuteReader());
+            CapitalizeHeaders(deletedEmployeesDataTable);
+
+            DeletedEmployeesGrid.ItemsSource = deletedEmployeesDataTable.DefaultView;
+        }
+
         // Method to refresh all the grids with updated data from the database.
         private void RefreshAllGrids()
         {
@@ -944,6 +961,7 @@ namespace WpfApp1
             RefreshItemsGrid();
             RefreshIncomesGrid();
             RefreshExpensesGrid();
+            RefreshDeletedEmployeesGrid();
         }
 
         // Method to capitalize the headers of a DataTable.
@@ -1579,6 +1597,7 @@ namespace WpfApp1
                 if (rowsAffected > 0)
                 {
                     // Refresh all the grids with the updated data.
+
                 }
             }
         }
@@ -1960,6 +1979,34 @@ namespace WpfApp1
                 ")";
             MySqlCommand createExpensesTableCommand = new(createExpensesTableQuery, connection);
             createExpensesTableCommand.ExecuteNonQuery();
+
+            // Create the employees table if it doesn't exist.
+            string createDeletedEmployeesTableQuery = "CREATE TABLE IF NOT EXISTS deletedemployees (" +
+                "employee_id int auto_increment primary key," +
+                "first_name varchar(50)," +
+                "last_name varchar(50)," +
+                "email varchar(100)," +
+                "phone varchar(20)," +
+                "hire_date date," +
+                "salary int," +
+                "is_full_time boolean," +
+                "availability varchar(255)" +
+                ")";
+            MySqlCommand createDeletedEmployeesTableCommand = new(createDeletedEmployeesTableQuery, connection);
+            createDeletedEmployeesTableCommand.ExecuteNonQuery();
+
+            // Create the employees table if it doesn't exist.
+            string createtr_EmployeeRemovedQuery =
+                "CREATE TRIGGER IF NOT EXISTS tr_EmployeeRemoved " +
+                "BEFORE DELETE ON employees " +
+                "FOR EACH ROW " +
+                "BEGIN " +
+                "   INSERT INTO deletedemployees (employee_id, first_name, last_name, email, phone, hire_date, salary, is_full_time, availability) " +
+                "   VALUES (OLD.employee_id, OLD.first_name, OLD.last_name, OLD.email, OLD.phone, OLD.hire_date, OLD.salary, OLD.is_full_time, OLD.availability); " +
+                "END;";
+            MySqlCommand createtr_EmployeeRemovedCommand = new MySqlCommand(createtr_EmployeeRemovedQuery, connection);
+            createtr_EmployeeRemovedCommand.ExecuteNonQuery();
+
         }
     }
 }

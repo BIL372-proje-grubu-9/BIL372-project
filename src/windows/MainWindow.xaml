@@ -230,6 +230,12 @@
                     <Button Content="Filter" Name="ExpenseFilterButton" HorizontalAlignment="Left" Margin="111,283,0,0" VerticalAlignment="Top" FontSize="18" Click="ExpenseFilterButton_Click"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="DeletedEmployees">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Deleted &#xD;&#xA;Employees" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24" Height="81" Width="170"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="DeletedEmployeesGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
