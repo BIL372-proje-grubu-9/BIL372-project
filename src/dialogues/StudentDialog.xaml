@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="StudentDialog" WindowStartupLocation="CenterScreen" Height="280" Width="270">
+        Title="StudentDialog" WindowStartupLocation="CenterScreen" Height="389" Width="270">
     <Grid>
         <Label Content="Student First Name:" Margin="2,12,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Margin="121,16,0,0" TextWrapping="Wrap" Text="" Name="StudentFirstNameTextBox"  VerticalAlignment="Top" Width="120"/>
@@ -21,6 +21,8 @@
         <TextBox HorizontalAlignment="Left" Margin="121,152,0,0" TextWrapping="Wrap" Text="" Name="StudentPhoneTextBox" VerticalAlignment="Top" Width="120" PreviewTextInput="NumericOnly_PreviewTextInput"/>
         <Label Content="Availability:" Margin="47,174,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Margin="121,178,0,0" TextWrapping="Wrap" Text="" Name="StudentAvailabilityTextBox" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Save" HorizontalAlignment="Center" Margin="0,205,0,0" VerticalAlignment="Top" Width="74" Click="SaveButtonClicked"/>
+        <Label Content="Enrollments: " Margin="38,200,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ListBox HorizontalAlignment="Left" Height="80" Margin="121,204,0,0" VerticalAlignment="Top" Width="120" Name="StudentEnrollmentsListBox" SelectionMode="Multiple"/>
+        <Button Content="Save" HorizontalAlignment="Center" Margin="0,301,0,0" VerticalAlignment="Top" Width="74" Click="SaveButtonClicked"/>
     </Grid>
 </Window>

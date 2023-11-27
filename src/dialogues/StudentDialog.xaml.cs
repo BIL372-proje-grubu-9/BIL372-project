@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,9 +28,11 @@ namespace WpfApp1
         public string ContactEmail { get; set; }
         public string ContactPhone { get; set; }
         public string Availability { get; set; }
+        public string Enrollments { get; set; }
         public StudentDialog()
         {
             InitializeComponent();
+            populateStudentEnrollmentsListBox();
             StudentFirstName = string.Empty;
             StudentLastName = string.Empty;
             StudentAge = 0;
@@ -36,6 +40,7 @@ namespace WpfApp1
             ContactEmail = string.Empty;
             ContactPhone = string.Empty;
             Availability = string.Empty;
+            Enrollments = string.Empty;
         }
 
         private void SaveButtonClicked(object sender, RoutedEventArgs e)
@@ -60,9 +65,27 @@ namespace WpfApp1
             ContactEmail = StudentEmailTextBox.Text;
             ContactPhone = StudentPhoneTextBox.Text;
             Availability = StudentAvailabilityTextBox.Text;
+            foreach (var item in StudentEnrollmentsListBox.SelectedItems)
+            {
+                Enrollments += item.ToString().Split("ID: ")[1].Split(" - ")[0] + ",";
+            }
+            Enrollments = Enrollments.TrimEnd(',');
 
             // Close the dialog with a "true" result to indicate success.
             DialogResult = true;
+        }
+
+        private void populateStudentEnrollmentsListBox()
+        {
+            // Populate the list box with the courses.
+            string query = "SELECT course_id, course_name FROM courses";
+            MySqlCommand cmd = new(query, MainWindow.connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                StudentEnrollmentsListBox.Items.Add($"ID: {reader[0]} - {reader[1]}");
+            }
+            reader.Close();
         }
         private void NumericOnly_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {

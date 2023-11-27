@@ -28,21 +28,21 @@ namespace WpfApp1
     {
         private const string dbName = "projectgroup9";
         private const string employeesQuery = "SELECT * FROM employees";
-        private const string teachersQuery = "SELECT teachers.*, GROUP_CONCAT(courses.course_name SEPARATOR ', ') AS courses_taught, GROUP_CONCAT(courses.schedule SEPARATOR ', ') AS schedule " +
+        private const string teachersQuery = "SELECT teachers.*, GROUP_CONCAT(courses.course_name SEPARATOR ',') AS courses_taught, GROUP_CONCAT(courses.schedule SEPARATOR ',') AS schedule " +
             "FROM teachers " +
             "LEFT JOIN courses ON teachers.teacher_id = courses.teacher_id " +
             "GROUP BY teachers.teacher_id";
         private const string administraiveQuery = "SELECT * FROM administrative_employees";
         private const string janitorsQuery = "SELECT * FROM janitors";
         private const string studentsQuery = 
-            "SELECT students.*, GROUP_CONCAT(courses.course_name SEPARATOR ', ') AS enrolled_courses, GROUP_CONCAT(courses.schedule SEPARATOR ', ') AS schedule " +
+            "SELECT students.*, GROUP_CONCAT(courses.course_name SEPARATOR ',') AS enrolled_courses, GROUP_CONCAT(courses.schedule SEPARATOR ',') AS schedule " +
             "FROM students " +
             "LEFT JOIN enrollments ON students.student_id = enrollments.student_id " +
             "LEFT JOIN courses ON enrollments.course_id = courses.course_id " +
             "GROUP BY students.student_id";
         private const string parentsQuery = "SELECT * FROM parents";
         private const string coursesQuery = "SELECT * FROM courses";
-        private const string itemsQuery = "SELECT items.*, GROUP_CONCAT(courses.course_id SEPARATOR ', ') AS course_id " +
+        private const string itemsQuery = "SELECT items.*, GROUP_CONCAT(courses.course_id SEPARATOR ',') AS course_id " +
             "FROM items " +
             "LEFT JOIN course_item ON items.item_id = course_item.item_id " +
             "LEFT JOIN courses ON course_item.course_id = courses.course_id " +
@@ -316,9 +316,9 @@ namespace WpfApp1
                 string studentEmail = studentDialog.ContactEmail;
                 string studentPhone = studentDialog.ContactPhone;
                 string studentAvailability = studentDialog.Availability;
+                int[] enrollments = studentDialog.Enrollments.Split(',').Select(int.Parse).ToArray();
 
                 // Add the student to the database.
-
                 string insertQuery = "INSERT INTO students (first_name, last_name, age, graduate, contact_email, contact_phone, availability) VALUES (@first_name, @last_name, @age, @graduate, @contact_email, @contact_phone, @availability)";
                 MySqlCommand insertCommand = new(insertQuery, connection);
                 insertCommand.Parameters.AddWithValue("@first_name", studentFirstName);
@@ -329,11 +329,25 @@ namespace WpfApp1
                 insertCommand.Parameters.AddWithValue("@contact_phone", studentPhone);
                 insertCommand.Parameters.AddWithValue("@availability", studentAvailability);
 
+                // Execute the query and get the auto-generated student ID.
                 int rowsAffected = insertCommand.ExecuteNonQuery();
+                long studentId = insertCommand.LastInsertedId;
+
+                // Add the student's enrollments to the database.
+                foreach (int courseId in enrollments)
+                {
+                    insertQuery = "INSERT INTO enrollments (student_id, course_id) VALUES (@student_id, @course_id)";
+                    insertCommand = new(insertQuery, connection);
+                    insertCommand.Parameters.AddWithValue("@student_id", studentId);
+                    insertCommand.Parameters.AddWithValue("@course_id", courseId);
+
+                    rowsAffected += insertCommand.ExecuteNonQuery();
+                }
 
                 if (rowsAffected > 0)
                 {
-                    // Refresh all the grids with the updated data.
+                    // Refresh all the grids with the updated data.,
+                    RefreshAllGrids();
                 }
             }
         }
