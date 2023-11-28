@@ -1836,6 +1836,28 @@ namespace WpfApp1
             }
         }
 
+        // Method to delete a row from the DeletedEmployees.
+        private void DeletedEmployeesGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                // Get the teacher ID of the DeletedEmployees
+                int deletedEmployeeID = (int)((DataRowView)DeletedEmployeesGrid.SelectedItem).Row.ItemArray[0];
+
+                string deletedEmployeeDeleteQuery = $"DELETE FROM deletedemployees WHERE employee_id = @employee_id";
+                MySqlCommand deleteCommand = new(deletedEmployeeDeleteQuery, connection);
+                deleteCommand.Parameters.AddWithValue("@employee_id", deletedEmployeeID);
+
+                int rowsAffected = deleteCommand.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    // Refresh all the grids with the updated data.
+                    RefreshAllGrids();
+                }
+            }
+        }
+
         private static void ConfigureDatabase(string databaseName)
         {
             // Create the database and tables if it doesn't exist.
@@ -2022,6 +2044,17 @@ namespace WpfApp1
             MySqlCommand createtr_EmployeeRemovedCommand = new MySqlCommand(createtr_EmployeeRemovedQuery, connection);
             createtr_EmployeeRemovedCommand.ExecuteNonQuery();
 
+            // Create the deleted_employees_grid table if it doesn't exist.
+            string createtr_EmployeeRecycleQuery =
+                "CREATE TRIGGER IF NOT EXISTS tr_EmployeeRecyle " +
+                "BEFORE DELETE ON deletedemployees " +
+                "FOR EACH ROW " +
+                "BEGIN " +
+                "   INSERT INTO employees (employee_id, first_name, last_name, email, phone, hire_date, salary, is_full_time, availability) " +
+                "   VALUES (OLD.employee_id, OLD.first_name, OLD.last_name, OLD.email, OLD.phone, OLD.hire_date, OLD.salary, OLD.is_full_time, OLD.availability); " +
+                "END;";
+            MySqlCommand createtr_EmployeeRecycleQueryCommand = new MySqlCommand(createtr_EmployeeRecycleQuery, connection);
+            createtr_EmployeeRecycleQueryCommand.ExecuteNonQuery();
         }
     }
 }
