@@ -2017,7 +2017,7 @@ namespace WpfApp1
             MySqlCommand createExpensesTableCommand = new(createExpensesTableQuery, connection);
             createExpensesTableCommand.ExecuteNonQuery();
 
-            // Create the employees table if it doesn't exist.
+            // Create the deletedemployees table if it doesn't exist.
             string createDeletedEmployeesTableQuery = "CREATE TABLE IF NOT EXISTS deletedemployees (" +
                 "employee_id int auto_increment primary key," +
                 "first_name varchar(50)," +
@@ -2032,7 +2032,28 @@ namespace WpfApp1
             MySqlCommand createDeletedEmployeesTableCommand = new(createDeletedEmployeesTableQuery, connection);
             createDeletedEmployeesTableCommand.ExecuteNonQuery();
 
-            // Create the deleted_employees_grid table if it doesn't exist.
+            
+            string totalMoneyTrafficTableQuery = "CREATE TABLE IF NOT EXISTS totalmoneytraffic(" +
+                "total_id int auto_increment primary key, " +
+                "total_income float, " +
+                "total_expense float" +
+                ")";
+            MySqlCommand totalMoneyTrafficTableCommand = new(totalMoneyTrafficTableQuery, connection);
+            totalMoneyTrafficTableCommand.ExecuteNonQuery();
+
+            string checkDataQuery = "SELECT COUNT(*) FROM totalmoneytraffic";
+            MySqlCommand checkDataCommand = new MySqlCommand(checkDataQuery, connection);
+
+            int rowCount = Convert.ToInt32(checkDataCommand.ExecuteScalar());
+
+            if (rowCount == 0)
+            {
+                string insertDataQuery = "INSERT INTO totalmoneytraffic (total_income, total_expense) VALUES (0, 0)";
+                MySqlCommand insertDataCommand = new MySqlCommand(insertDataQuery, connection);
+                insertDataCommand.ExecuteNonQuery();
+                Console.WriteLine("Initial data inserted into totalmoneytraffic table.");
+            }
+
             string createtr_EmployeeRemovedQuery =
                 "CREATE TRIGGER IF NOT EXISTS tr_EmployeeRemoved " +
                 "BEFORE DELETE ON employees " +
@@ -2044,7 +2065,7 @@ namespace WpfApp1
             MySqlCommand createtr_EmployeeRemovedCommand = new MySqlCommand(createtr_EmployeeRemovedQuery, connection);
             createtr_EmployeeRemovedCommand.ExecuteNonQuery();
 
-            // Create the deleted_employees_grid table if it doesn't exist.
+
             string createtr_EmployeeRecycleQuery =
                 "CREATE TRIGGER IF NOT EXISTS tr_EmployeeRecyle " +
                 "BEFORE DELETE ON deletedemployees " +
@@ -2053,8 +2074,32 @@ namespace WpfApp1
                 "   INSERT INTO employees (employee_id, first_name, last_name, email, phone, hire_date, salary, is_full_time, availability) " +
                 "   VALUES (OLD.employee_id, OLD.first_name, OLD.last_name, OLD.email, OLD.phone, OLD.hire_date, OLD.salary, OLD.is_full_time, OLD.availability); " +
                 "END;";
-            MySqlCommand createtr_EmployeeRecycleQueryCommand = new MySqlCommand(createtr_EmployeeRecycleQuery, connection);
-            createtr_EmployeeRecycleQueryCommand.ExecuteNonQuery();
+            MySqlCommand createtr_EmployeeRecycleCommand = new MySqlCommand(createtr_EmployeeRecycleQuery, connection);
+            createtr_EmployeeRecycleCommand.ExecuteNonQuery();
+            
+
+            string createtr_after_income_insertQuery =
+                "CREATE TRIGGER IF NOT EXISTS after_income_insert " +
+                "AFTER INSERT ON incomes " +
+                "FOR EACH ROW " +
+                "BEGIN " +
+                "UPDATE totalmoneytraffic " +
+                "SET total_income = total_income + NEW.income_amount; " +
+                "END;";
+            MySqlCommand createtr_after_income_insertCommand = new MySqlCommand(createtr_after_income_insertQuery, connection);
+            createtr_after_income_insertCommand.ExecuteNonQuery();
+
+            string createtr_after_expense_insertQuery =
+                "CREATE TRIGGER IF NOT EXISTS after_expense_insert " +
+                "AFTER INSERT ON expenses " +
+                "FOR EACH ROW " +
+                "BEGIN " +
+                "UPDATE totalmoneytraffic " +
+                "SET total_expense = total_expense + NEW.expense_amount; " +
+                "END;";
+            MySqlCommand createtr_after_expense_inserCommand = new MySqlCommand(createtr_after_expense_insertQuery, connection);
+            createtr_after_expense_inserCommand.ExecuteNonQuery();
+
         }
     }
 }
