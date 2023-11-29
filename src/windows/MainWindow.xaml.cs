@@ -50,6 +50,7 @@ namespace WpfApp1
         private const string incomesQuery = "SELECT * FROM incomes";
         private const string expensesQuery = "SELECT * FROM expenses";
         private const string deletedEmployeesQuery = "SELECT * FROM deletedemployees";
+        private const string totalMoneyTrafficQuery = "SELECT total_income, total_expense FROM totalmoneytraffic";
         private string connectionString = "";
         public static MySqlConnection? connection;
         public MainWindow()
@@ -68,6 +69,7 @@ namespace WpfApp1
             MySqlCommand incomesCmd = new(incomesQuery, connection);
             MySqlCommand expensesCmd = new(expensesQuery, connection);
             MySqlCommand deletedEmployeesCmd = new(deletedEmployeesQuery, connection);
+            MySqlCommand totalMoneyTrafficCmd = new(totalMoneyTrafficQuery, connection);
 
             DataTable employeesDataTable = new();
             DataTable teachersDataTable = new();
@@ -80,6 +82,7 @@ namespace WpfApp1
             DataTable incomesDataTable = new();
             DataTable expensesDataTable = new();
             DataTable deletedEmployeesDataTable = new();
+            DataTable totalMoneyTrafficDataTable = new();
 
             employeesDataTable.Load(employeesCmd.ExecuteReader());
             teachersDataTable.Load(teachersCmd.ExecuteReader());
@@ -92,6 +95,7 @@ namespace WpfApp1
             incomesDataTable.Load(incomesCmd.ExecuteReader());
             expensesDataTable.Load(expensesCmd.ExecuteReader());
             deletedEmployeesDataTable.Load(deletedEmployeesCmd.ExecuteReader());
+            totalMoneyTrafficDataTable.Load(totalMoneyTrafficCmd.ExecuteReader());
 
             CapitalizeHeaders(employeesDataTable);
             CapitalizeHeaders(teachersDataTable);
@@ -104,6 +108,7 @@ namespace WpfApp1
             CapitalizeHeaders(incomesDataTable);
             CapitalizeHeaders(expensesDataTable);
             CapitalizeHeaders(deletedEmployeesDataTable);
+            CapitalizeHeaders(totalMoneyTrafficDataTable);
 
             EmployeesGrid.ItemsSource = employeesDataTable.DefaultView;
             TeachersGrid.ItemsSource = teachersDataTable.DefaultView;
@@ -116,6 +121,7 @@ namespace WpfApp1
             IncomesGrid.ItemsSource = incomesDataTable.DefaultView;
             ExpensesGrid.ItemsSource = expensesDataTable.DefaultView;
             DeletedEmployeesGrid.ItemsSource = deletedEmployeesDataTable.DefaultView;
+            TotalMoneyTrafficGrid.ItemsSource = totalMoneyTrafficDataTable.DefaultView;
         }
 
         private void Setup()
@@ -971,6 +977,16 @@ namespace WpfApp1
             DeletedEmployeesGrid.ItemsSource = deletedEmployeesDataTable.DefaultView;
         }
 
+        // Method to refresh the TotalMoneyTrafficGrid with updated data from the database.
+        private void RefreshTotalMoneyTrafficGrid()
+        {
+            MySqlCommand totalMoneyTrafficCmd = new(totalMoneyTrafficQuery, connection);
+            DataTable totalMoneyTrafficDataTable = new();
+            totalMoneyTrafficDataTable.Load(totalMoneyTrafficCmd.ExecuteReader());
+            CapitalizeHeaders(totalMoneyTrafficDataTable);
+
+            TotalMoneyTrafficGrid.ItemsSource = totalMoneyTrafficDataTable.DefaultView;
+        }
 
         // Method to refresh all the grids with updated data from the database.
         private void RefreshAllGrids()
@@ -986,6 +1002,7 @@ namespace WpfApp1
             RefreshIncomesGrid();
             RefreshExpensesGrid();
             RefreshDeletedEmployeesGrid();
+            RefreshTotalMoneyTrafficGrid();
         }
 
         // Method to capitalize the headers of a DataTable.

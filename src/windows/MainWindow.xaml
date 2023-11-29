@@ -236,6 +236,12 @@
                     <DataGrid d:ItemsSource="{Binding}" Name="DeletedEmployeesGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True" PreviewKeyDown="DeletedEmployeesGrid_PreviewKeyDown"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="TotalMoneyTraffic">
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="Total Money &#xD;&#xA;Traffic" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="TotalMoneyTrafficGrid" Margin="175,0,0,0" CanUserAddRows="False" IsReadOnly="True"/>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
