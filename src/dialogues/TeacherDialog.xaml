@@ -1,0 +1,30 @@
+﻿<Window x:Class="WpfApp1.TeacherDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="TeacherDialog" WindowStartupLocation="CenterScreen" Height="323" Width="270">
+    <Grid>
+        <Label Content="Teacher First Name:" Margin="2,12,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,16,0,0" TextWrapping="Wrap" Text="" Name="TeacherFirstNameTextBox"  VerticalAlignment="Top" Width="120"/>
+        <Label Content="Teacher Last Name:" Margin="3,42,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,46,0,0" TextWrapping="Wrap" Text="" Name="TeacherLastNameTextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Teacher Email:" Margin="31,72,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,76,0,0" TextWrapping="Wrap" Text="" Name="TeacherEmailTextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Teacher Phone:" Margin="26,99,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,103,0,0" TextWrapping="Wrap" Text="" Name="TeacherPhoneTextBox" VerticalAlignment="Top" Width="120" PreviewTextInput="NumericOnly_PreviewTextInput"/>
+        <Label Content="Teacher Speciality:" Margin="9,122,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,126,0,0" TextWrapping="Wrap" Text="" Name="TeacherSpecialtyTextBox" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Hire Date:" Margin="52,148,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <DatePicker HorizontalAlignment="Left" Margin="121,149,0,0" Name="TeacherHireDateDatePicker" VerticalAlignment="Top" Width="120" FirstDayOfWeek="Monday"/>
+        <Label Content="Teacher Salary:" Margin="27,174,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,178,0,0" TextWrapping="Wrap" Text="0" Name="TeacherSalaryTextBox" VerticalAlignment="Top" Width="120" PreviewTextInput="NumericOnly_PreviewTextInput"/>
+        <Label Content="Full Time:" Margin="55,199,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <CheckBox HorizontalAlignment="Left" Margin="121,204,0,0" Name="TeacherIsFullTimeCheckBox" VerticalAlignment="Top"/>
+        <Label Content="Availability:" Margin="45,225,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="121,229,0,0" TextWrapping="Wrap" Text="" Name="TeacherAvailabilityTextBox" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Save" HorizontalAlignment="Center" Margin="0,260,0,0" VerticalAlignment="Top" Width="74" Click="SaveButtonClicked"/>
+    </Grid>
+</Window>
