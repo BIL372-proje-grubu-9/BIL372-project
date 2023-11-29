@@ -1,5 +1,5 @@
-create database Project;
-use Project;
+create database projectgroup9;
+use projectgroup9;
 
 create table Employees (
     employee_id int auto_increment primary key,
@@ -88,17 +88,17 @@ create table Enrollments (
 );
 
 create table Course_Item (
-	course_item_id int auto_increment primary key,
-	course_id int,
-	item_id int,
-	foreign key (course_id)	references Courses(course_id) on delete cascade on update cascade,
-	foreign key (item_id) references Items(item_id) on delete cascade on update cascade
-)
+    course_item_id int auto_increment primary key,
+    course_id int,
+    item_id int,
+    foreign key (course_id) references Courses(course_id) on delete cascade on update cascade,
+    foreign key (item_id) references Items(item_id) on delete cascade on update cascade
+);
 
 create table Incomes (
     income_id int auto_increment primary key,
     income_type varchar(50),
-    income_amount DECIMAL(10, 5),
+    income_amount float,
     income_date date,
     income_description varchar(255)
 );
@@ -106,12 +106,12 @@ create table Incomes (
 create table Expenses (
     expense_id int auto_increment primary key,
     expense_type varchar(50),
-    expense_amount DECIMAL(10, 5),
+    expense_amount float,
     expense_date date,
     expense_description varchar(255)
 );
 
-create table RemovedEmployees (
+create table DeletedEmployees (
     employee_id int auto_increment primary key,
     first_name varchar(50),
     last_name varchar(50),
@@ -123,50 +123,62 @@ create table RemovedEmployees (
     availability varchar(255)
 );
 
+DELIMITER $$
 CREATE TRIGGER IF NOT EXISTS tr_EmployeeRemoved
 BEFORE DELETE ON employees
 FOR EACH ROW
 BEGIN
    INSERT INTO deletedemployees (employee_id, first_name, last_name, email, phone, hire_date, salary, is_full_time, availability)
    VALUES (OLD.employee_id, OLD.first_name, OLD.last_name, OLD.email, OLD.phone, OLD.hire_date, OLD.salary, OLD.is_full_time, OLD.availability);
-END;
+END$$
+DELIMITER ;
 
+DELIMITER $$
 CREATE TRIGGER IF NOT EXISTS tr_EmployeeRecycle
 BEFORE DELETE ON deletedemployees
 FOR EACH ROW
 BEGIN
    INSERT INTO employees (employee_id, first_name, last_name, email, phone, hire_date, salary, is_full_time, availability)
    VALUES (OLD.employee_id, OLD.first_name, OLD.last_name, OLD.email, OLD.phone, OLD.hire_date, OLD.salary, OLD.is_full_time, OLD.availability);
-END;
+end$$
+DELIMITER ;
 
+DELIMITER $$
 CREATE TRIGGER IF NOT EXISTS after_income_insert
 AFTER INSERT ON incomes
 FOR EACH ROW
 BEGIN
     UPDATE totalmoneytraffic
     SET total_income = total_income + NEW.income_amount;
-END;
+END$$
+DELIMITER ;
 
+DELIMITER $$
 CREATE TRIGGER IF NOT EXISTS after_income_delete
 AFTER DELETE ON incomes
 FOR EACH ROW
 BEGIN
    UPDATE totalmoneytraffic
    SET total_income = total_income - OLD.income_amount;
-END;
+END$$
+DELIMITER ;
 
+DELIMITER $$
 CREATE TRIGGER IF NOT EXISTS after_expense_insert
 AFTER INSERT ON expenses
 FOR EACH ROW
 BEGIN
-	UPDATE totalmoneytraffic
-	SET total_expense = total_expense + NEW.expense_amount;
-END;
+    UPDATE totalmoneytraffic
+    SET total_expense = total_expense + NEW.expense_amount;
+END$$
+DELIMITER ;
 
+DELIMITER $$
 CREATE TRIGGER IF NOT EXISTS after_expense_delete
 AFTER DELETE ON expenses
 FOR EACH ROW
 BEGIN
-	UPDATE totalmoneytraffic
-	SET total_expense = total_expense - OLD.expense_amount;
-END;
+    UPDATE totalmoneytraffic
+    SET total_expense = total_expense - OLD.expense_amount;
+END$$
+DELIMITER ;
