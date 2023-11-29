@@ -123,10 +123,50 @@ create table RemovedEmployees (
     availability varchar(255)
 );
 
+CREATE TRIGGER IF NOT EXISTS tr_EmployeeRemoved
+BEFORE DELETE ON employees
+FOR EACH ROW
+BEGIN
+   INSERT INTO deletedemployees (employee_id, first_name, last_name, email, phone, hire_date, salary, is_full_time, availability)
+   VALUES (OLD.employee_id, OLD.first_name, OLD.last_name, OLD.email, OLD.phone, OLD.hire_date, OLD.salary, OLD.is_full_time, OLD.availability);
+END;
 
-CREATE TRIGGER tr_EmployeeRemoved
-ON employees BEFORE  INSERT AS BEGIN
-    INSERT INTO removedemployees (employee_id, first_name, last_name, email, phone, hire_date, salary, is_full_time, availability)
-    SELECT employee_id, first_name, last_name, email, phone, hire_date, salary, is_full_time, availability
-    FROM Employees;
+CREATE TRIGGER IF NOT EXISTS tr_EmployeeRecyle
+BEFORE DELETE ON deletedemployees
+FOR EACH ROW
+BEGIN
+   INSERT INTO employees (employee_id, first_name, last_name, email, phone, hire_date, salary, is_full_time, availability)
+   VALUES (OLD.employee_id, OLD.first_name, OLD.last_name, OLD.email, OLD.phone, OLD.hire_date, OLD.salary, OLD.is_full_time, OLD.availability);
+END;
+
+CREATE TRIGGER IF NOT EXISTS after_income_insert
+AFTER INSERT ON incomes
+FOR EACH ROW
+BEGIN
+    UPDATE totalmoneytraffic
+    SET total_income = total_income + NEW.income_amount;
+END;
+
+CREATE TRIGGER IF NOT EXISTS after_income_delete
+AFTER DELETE ON incomes
+FOR EACH ROW
+BEGIN
+   UPDATE totalmoneytraffic
+   SET total_income = total_income - OLD.income_amount;
+END;
+
+CREATE TRIGGER IF NOT EXISTS after_expense_insert
+AFTER INSERT ON expenses
+FOR EACH ROW
+BEGIN
+	UPDATE totalmoneytraffic
+	SET total_expense = total_expense + NEW.expense_amount;
+END;
+
+CREATE TRIGGER IF NOT EXISTS after_expense_delete
+AFTER DELETE ON expenses
+FOR EACH ROW
+BEGIN
+	UPDATE totalmoneytraffic
+	SET total_expense = total_expense - OLD.expense_amount;
 END;

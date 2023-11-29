@@ -2127,8 +2127,8 @@ namespace WpfApp1
                 "AFTER INSERT ON incomes " +
                 "FOR EACH ROW " +
                 "BEGIN " +
-                "UPDATE totalmoneytraffic " +
-                "SET total_income = total_income + NEW.income_amount; " +
+                "   UPDATE totalmoneytraffic " +
+                "   SET total_income = total_income + NEW.income_amount; " +
                 "END;";
             MySqlCommand createtr_after_income_insertCommand = new MySqlCommand(createtr_after_income_insertQuery, connection);
             createtr_after_income_insertCommand.ExecuteNonQuery();
@@ -2138,8 +2138,8 @@ namespace WpfApp1
                 "AFTER DELETE ON incomes " +
                 "FOR EACH ROW " +
                 "BEGIN " +
-                "UPDATE totalmoneytraffic " +
-                "SET total_income = total_income - OLD.income_amount; " +
+                "   UPDATE totalmoneytraffic " +
+                "   SET total_income = total_income - OLD.income_amount; " +
                 "END;";
             MySqlCommand createtr_after_income_deleteCommand = new MySqlCommand(createtr_after_income_deleteQuery, connection);
             createtr_after_income_deleteCommand.ExecuteNonQuery();
@@ -2149,8 +2149,8 @@ namespace WpfApp1
                 "AFTER INSERT ON expenses " +
                 "FOR EACH ROW " +
                 "BEGIN " +
-                "UPDATE totalmoneytraffic " +
-                "SET total_expense = total_expense + NEW.expense_amount; " +
+                "   UPDATE totalmoneytraffic " +
+                "   SET total_expense = total_expense + NEW.expense_amount; " +
                 "END;";
             MySqlCommand createtr_after_expense_inserCommand = new MySqlCommand(createtr_after_expense_insertQuery, connection);
             createtr_after_expense_inserCommand.ExecuteNonQuery();
@@ -2160,8 +2160,8 @@ namespace WpfApp1
                 "AFTER DELETE ON expenses " +
                 "FOR EACH ROW " +
                 "BEGIN " +
-                "UPDATE totalmoneytraffic " +
-                "SET total_expense = total_expense - OLD.expense_amount; " +
+                "   UPDATE totalmoneytraffic " +
+                "   SET total_expense = total_expense - OLD.expense_amount; " +
                 "END;";
             MySqlCommand createtr_after_expense_deleteCommand = new MySqlCommand(createtr_after_expense_deleteQuery, connection);
             createtr_after_expense_deleteCommand.ExecuteNonQuery();
