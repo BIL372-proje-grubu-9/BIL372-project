@@ -62,7 +62,7 @@
             <TabItem Header="Janitors">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Janitors" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
-                    <DataGrid d:ItemsSource="{Binding}" Name="JanitorsGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="JanitorsGrid_CellEditEnding"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="JanitorsGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="JanitorsGrid_CellEditEnding" PreviewKeyDown="JanitorsGrid_PreviewKeyDown"/>
                     <Button Content="Add Janitor" Name="AddJanitor" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddJanitorButton_Click"/>
                     <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
                     <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
@@ -88,7 +88,7 @@
             <TabItem Header="Administrative Employees">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Administrative" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
-                    <DataGrid d:ItemsSource="{Binding}" Name="AdministrativeEmployeesGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="AdministrativeEmployeesGrid_CellEditEnding"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="AdministrativeEmployeesGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="AdministrativeEmployeesGrid_CellEditEnding" PreviewKeyDown="AdministrativeEmployeesGrid_PreviewKeyDown"/>
                     <Button Content="Add Administrative" Name="AddAdministrativeEmployee" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddAdministrativeEmployeeButton_Click"/>
                     <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
                     <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
@@ -116,7 +116,7 @@
             <TabItem Header="Students">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Students" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
-                    <DataGrid d:ItemsSource="{Binding}" Name="StudentsGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="StudentsGrid_CellEditEnding"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="StudentsGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="StudentsGrid_CellEditEnding" PreviewKeyDown="StudentsGrid_PreviewKeyDown"/>
                     <Button Content="Add Student" Name="AddStudent" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddStudentButton_Click"/>
                     <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
                     <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
@@ -140,7 +140,7 @@
             <TabItem Header="Parents">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Parents" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
-                    <DataGrid d:ItemsSource="{Binding}" Name="ParentsGrid" Margin="175,0,0,0" CanUserAddRows="False"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="ParentsGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="ParentsGrid_CellEditEnding" PreviewKeyDown="ParentsGrid_PreviewKeyDown"/>
                     <Button Content="Add Parent" Name="AddParent" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddParentButton_Click"/>
                     <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
                     <Label Content="First Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
@@ -160,7 +160,7 @@
             <TabItem Header="Courses">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Courses" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
-                    <DataGrid d:ItemsSource="{Binding}" Name="CoursesGrid" Margin="175,0,0,0" CanUserAddRows="False"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="CoursesGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="CoursesGrid_CellEditEnding" PreviewKeyDown="CoursesGrid_PreviewKeyDown"/>
                     <Button Content="Add Course" Name="AddCourse" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddCourseButton_Click"/>
                     <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
                     <Label Content="Course Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
@@ -179,7 +179,7 @@
             <TabItem Header="Items">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Items" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
-                    <DataGrid d:ItemsSource="{Binding}" Name="ItemsGrid" Margin="175,0,0,0" CanUserAddRows="False"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="ItemsGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="ItemsGrid_CellEditEnding" PreviewKeyDown="ItemsGrid_PreviewKeyDown"/>
                     <Button Content="Add Item" Name="AddItem" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddItemButton_Click"/>
                     <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
                     <Label Content="Item Name:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
@@ -197,7 +197,7 @@
             <TabItem Header="Incomes">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Incomes" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
-                    <DataGrid d:ItemsSource="{Binding}" Name="IncomesGrid" Margin="175,0,0,0" CanUserAddRows="False"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="IncomesGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="IncomesGrid_CellEditEnding" PreviewKeyDown="IncomesGrid_PreviewKeyDown"/>
                     <Button Content="Add Income" Name="AddIncome" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddIncomeButton_Click"/>
                     <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
                     <Label Content="Income Type:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>
@@ -215,7 +215,7 @@
             <TabItem Header="Expenses">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="Expenses" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="24"/>
-                    <DataGrid d:ItemsSource="{Binding}" Name="ExpensesGrid" Margin="175,0,0,0" CanUserAddRows="False"/>
+                    <DataGrid d:ItemsSource="{Binding}" Name="ExpensesGrid" Margin="175,0,0,0" CanUserAddRows="False" CellEditEnding="ExpensesGrid_CellEditEnding" PreviewKeyDown="ExpensesGrid_PreviewKeyDown"/>
                     <Button Content="Add Expense" Name="AddExpense" HorizontalAlignment="Left" Margin="0,47,0,0" VerticalAlignment="Top" FontSize="18" Click="AddExpenseButton_Click"/>
                     <Label Content="Filters:" HorizontalAlignment="Left" Margin="0,125,0,0" VerticalAlignment="Top" FontSize="24"/>
                     <Label Content="Expense Type:" HorizontalAlignment="Left" Margin="0,175,0,0" VerticalAlignment="Top" FontSize="12"/>

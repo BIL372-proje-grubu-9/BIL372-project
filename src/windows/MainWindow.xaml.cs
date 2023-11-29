@@ -316,7 +316,16 @@ namespace WpfApp1
                 string studentEmail = studentDialog.ContactEmail;
                 string studentPhone = studentDialog.ContactPhone;
                 string studentAvailability = studentDialog.Availability;
-                int[] enrollments = studentDialog.Enrollments.Split(',').Select(int.Parse).ToArray();
+                int[] enrollments;
+                string[] foobar = studentDialog.Enrollments.Split(',');
+                if (studentDialog.Enrollments.Length > 0)
+                {
+                    enrollments = studentDialog.Enrollments.Split(',').Select(int.Parse).ToArray() ?? new int[0];
+                }
+                else
+                {
+                    enrollments = new int[0];
+                }
 
                 // Add the student to the database.
                 string insertQuery = "INSERT INTO students (first_name, last_name, age, graduate, contact_email, contact_phone, availability) VALUES (@first_name, @last_name, @age, @graduate, @contact_email, @contact_phone, @availability)";
@@ -1615,6 +1624,15 @@ namespace WpfApp1
                     RefreshAllGrids();
                 }
             }
+            else if (e.Key == Key.Pause)
+            {
+                ScheduleViewerDialog scheduleViewerDialog = new();
+                string schedule = ((DataRowView)TeachersGrid.SelectedItem).Row.ItemArray[7].ToString();
+                Debug.WriteLine(schedule);
+                scheduleViewerDialog.Schedule = schedule;
+                scheduleViewerDialog.populateSchedule();
+                scheduleViewerDialog.ShowDialog();
+            }
         }
 
         // Method to delete a row from the JanitorsGrid.
@@ -1704,6 +1722,15 @@ namespace WpfApp1
                     // Refresh all the grids with the updated data.
                     RefreshAllGrids();
                 }
+            }
+            else if (e.Key == Key.Pause)
+            {
+                ScheduleViewerDialog scheduleViewerDialog = new();
+                string schedule = ((DataRowView)StudentsGrid.SelectedItem).Row.ItemArray[9].ToString();
+                Debug.WriteLine(schedule);
+                scheduleViewerDialog.Schedule = schedule;
+                scheduleViewerDialog.populateSchedule();
+                scheduleViewerDialog.ShowDialog();
             }
         }
 
