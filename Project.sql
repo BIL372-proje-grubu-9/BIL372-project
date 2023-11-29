@@ -111,6 +111,12 @@ create table Expenses (
     expense_description varchar(255)
 );
 
+create table totalmoneytraffic (
+    total_id int auto_increment primary key,
+    total_income float,
+    total_expense float
+);
+
 create table DeletedEmployees (
     employee_id int auto_increment primary key,
     first_name varchar(50),
