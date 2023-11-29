@@ -1645,7 +1645,6 @@ namespace WpfApp1
             {
                 ScheduleViewerDialog scheduleViewerDialog = new();
                 string schedule = ((DataRowView)TeachersGrid.SelectedItem).Row.ItemArray[7].ToString();
-                Debug.WriteLine(schedule);
                 scheduleViewerDialog.Schedule = schedule;
                 scheduleViewerDialog.populateSchedule();
                 scheduleViewerDialog.ShowDialog();
@@ -1744,7 +1743,6 @@ namespace WpfApp1
             {
                 ScheduleViewerDialog scheduleViewerDialog = new();
                 string schedule = ((DataRowView)StudentsGrid.SelectedItem).Row.ItemArray[9].ToString();
-                Debug.WriteLine(schedule);
                 scheduleViewerDialog.Schedule = schedule;
                 scheduleViewerDialog.populateSchedule();
                 scheduleViewerDialog.ShowDialog();
@@ -1801,6 +1799,14 @@ namespace WpfApp1
                     // Refresh all the grids with the updated data.
                     RefreshAllGrids();
                 }
+            }
+            else if (e.Key == Key.Pause)
+            {
+                ScheduleViewerDialog scheduleViewerDialog = new();
+                string schedule = ((DataRowView)CoursesGrid.SelectedItem).Row.ItemArray[3].ToString();
+                scheduleViewerDialog.Schedule = schedule;
+                scheduleViewerDialog.populateSchedule();
+                scheduleViewerDialog.ShowDialog();
             }
         }
 
