@@ -2117,7 +2117,7 @@ namespace WpfApp1
 
 
             string createtr_EmployeeRecycleQuery =
-                "CREATE TRIGGER IF NOT EXISTS tr_EmployeeRecyle " +
+                "CREATE TRIGGER IF NOT EXISTS tr_EmployeeRecycle " +
                 "BEFORE DELETE ON deletedemployees " +
                 "FOR EACH ROW " +
                 "BEGIN " +

@@ -131,7 +131,7 @@ BEGIN
    VALUES (OLD.employee_id, OLD.first_name, OLD.last_name, OLD.email, OLD.phone, OLD.hire_date, OLD.salary, OLD.is_full_time, OLD.availability);
 END;
 
-CREATE TRIGGER IF NOT EXISTS tr_EmployeeRecyle
+CREATE TRIGGER IF NOT EXISTS tr_EmployeeRecycle
 BEFORE DELETE ON deletedemployees
 FOR EACH ROW
 BEGIN
